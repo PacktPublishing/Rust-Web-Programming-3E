@@ -1,0 +1,5 @@
+
+[workspace]
+members = [
+    "to_do/core"
+]
