@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import React, {useEffect, useState} from 'react';
 import "../App.css";
-import { updateToDoItemCall } from "../api/update";
+import {updateToDoItemCall} from "../api/update";
 import { deleteToDoItemCall } from "../api/delete";
+import {TaskStatus} from "../interfaces/toDoItems";
 
 
 interface ToDoItemProps {
@@ -31,29 +31,37 @@ export const ToDoItem: React.FC<ToDoItemProps> = ({ title, status, id, passBackR
         return status === "PENDING" ? "DONE" : "PENDING";
     };
 
-    const sendRequest = (): void => {
-        const headers = {
-            headers: { "token": localStorage.getItem("token") }
-        };
-        const apiUrl = `${window.location.href}/v1/item`;
-
+    const sendRequest = async (): void => {
         if (button === "edit") {
 
-            axios.post(apiUrl, { title: itemTitle, status: inverseStatus(itemStatus) }, headers)
-                .then(response => passBackResponse(response))
-                .catch(error => {
-                    if (error.response?.status === 401) {
-                        logout();
+            await updateToDoItemCall(
+                itemTitle,
+                TaskStatus.DONE
+            ).then(
+                response => {
+                    if (response.data) {
+                        passBackResponse(response.data);
                     }
-                });
+                    else if (response.error) {
+                        console.log(response);
+                        console.log(`Error ${response.status}: ${response.error}`);
+                    }
+                }
+            )
         } else {
-            axios.delete(`${apiUrl}/${id}`, headers)
-                .then(response => passBackResponse(response))
-                .catch(error => {
-                    if (error.response?.status === 401) {
-                        logout();
+            await deleteToDoItemCall(
+                itemTitle
+            ).then(
+                response => {
+                    if (response.data) {
+                        passBackResponse(response.data);
                     }
-                });
+                    else if (response.error) {
+                        console.log(response);
+                        console.log(`Error ${response.status}: ${response.error}`);
+                    }
+                }
+            )
         }
     };
 

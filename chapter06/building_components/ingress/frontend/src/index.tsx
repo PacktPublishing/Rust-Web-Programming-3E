@@ -15,6 +15,7 @@ const App = () => {
     const [data, setData] = useState(null);
 
     function reRenderItems(items: ToDoItems) {
+        console.log("rendering data from the response");
         setData(items);
     }
 
@@ -25,7 +26,7 @@ const App = () => {
     // on load
     React.useEffect(() => {
         const fetchData = async () => {
-            const response = await getAll<ToDoItems>(window.location.href);
+            const response = await getAll<ToDoItems>();
             setData(response.data);
         }
         fetchData();

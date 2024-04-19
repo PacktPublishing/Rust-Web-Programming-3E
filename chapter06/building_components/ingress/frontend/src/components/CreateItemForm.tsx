@@ -12,15 +12,15 @@ export const CreateToDoItem: React.FC<CreateToDoItemProps> = ({ passBackResponse
     const [title, setTitle] = useState<string>("");
 
     const createItem = async () => {
-        const result = await createToDoItemCall(title).then(response => {
+        await createToDoItemCall(title).then(response => {
                 setTitle("");
-                passBackResponse(response);
+                if (response.data) {
+                    passBackResponse(response.data);
+                } else if (response.error) {
+                    console.log(response);
+                    console.log(`Error ${response.status}: ${response.error}`);
+                }
             });
-        if (result.data) {
-            passBackResponse(result.data);
-        } else if (result.error) {
-            console.log(`Error ${result.status}: ${result.error}`);
-        }
     };
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

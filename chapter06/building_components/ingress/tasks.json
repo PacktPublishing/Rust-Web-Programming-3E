@@ -1,14 +1,26 @@
 {
-    "writing": {
-      "title": "writing",
-      "status": "PENDING"
-    },
-    "washing": {
-      "title": "washing",
-      "status": "DONE"
-    },
-    "coding": {
-      "title": "coding",
-      "status": "DONE"
-    }
+  "getting there": {
+    "title": "getting there",
+    "status": "DONE"
+  },
+  "countdown": {
+    "title": "countdown",
+    "status": "DONE"
+  },
+  "test": {
+    "title": "test",
+    "status": "PENDING"
+  },
+  "final": {
+    "title": "final",
+    "status": "DONE"
+  },
+  "testing": {
+    "title": "testing",
+    "status": "PENDING"
+  },
+  "washing": {
+    "title": "washing",
+    "status": "DONE"
+  }
 }

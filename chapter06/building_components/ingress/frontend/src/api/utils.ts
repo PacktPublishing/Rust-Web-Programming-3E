@@ -34,7 +34,7 @@ export async function postCall<T, X>(url: string, body: T, expectedResponse: num
         {
             headers: {
                 'Content-Type': 'application/json',
-                // 'token': jwt
+                'token': "jwt"
             },
             // Resolve the promise for all HTTP status codes
             validateStatus: () => true
@@ -49,7 +49,7 @@ export async function deleteCall<X>(url: string, expectedResponse: number) {
         {
             headers: {
                 'Content-Type': 'application/json',
-                // 'token': jwt
+                'token': "jwt"
             },
             // Resolve the promise for all HTTP status codes
             validateStatus: () => true
@@ -65,7 +65,7 @@ export async function putCall<T, X>(url: string, body: T, expectedResponse: numb
         {
             headers: {
                 'Content-Type': 'application/json',
-                // 'token': jwt
+                'token': "jwt"
             },
             // Resolve the promise for all HTTP status codes
             validateStatus: () => true
@@ -80,7 +80,7 @@ export async function getCall<X>(url: string, expectedResponse: number) {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'token': jwt
+                    'token': "jwt"
                 },
                 // Resolve the promise for all HTTP status codes
                 validateStatus: () => true
