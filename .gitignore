@@ -1,4 +1,9 @@
 
 target/**
 target/
-
+node_modules/
+node_modules/**
+.idea/
+.idea/**
+**/bundle.js
+**/bundle.js.map
