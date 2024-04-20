@@ -1,8 +1,4 @@
 {
-  "getting there": {
-    "title": "getting there",
-    "status": "DONE"
-  },
   "countdown": {
     "title": "countdown",
     "status": "DONE"
@@ -11,9 +7,9 @@
     "title": "test",
     "status": "PENDING"
   },
-  "final": {
-    "title": "final",
-    "status": "DONE"
+  "one": {
+    "title": "one",
+    "status": "PENDING"
   },
   "testing": {
     "title": "testing",

@@ -15,7 +15,6 @@ const App = () => {
     const [data, setData] = useState(null);
 
     function reRenderItems(items: ToDoItems) {
-        console.log("rendering data from the response");
         setData(items);
     }
 
@@ -60,21 +59,10 @@ const App = () => {
                         </>
                     ))}
                 </div>
-                <CreateToDoItem passBackResponse={(response) => setData(response.data)} />
+                <CreateToDoItem passBackResponse={reRenderItems} />
             </div>
         );
     }
-
-    // return (
-    //     <div>
-    //         {/*<h1>Pending Items</h1>*/}
-    //         {/*{this.state.pending_items}*/}
-    //         {/*<h1>Done Items</h1>*/}
-    //         {/*{this.state.done_items}*/}
-    //         {data ? <div>Data loaded: {JSON.stringify(data)}</div> : <div>Loading...</div>}
-    //         <CreateToDoItem passBackResponse={(response) => setData(response.data)} />
-    //     </div>
-    // );
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

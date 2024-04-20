@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { createToDoItemCall } from "../api/create";
-import { ToDoItems } from "../interfaces/toDoItems";
 import "../App.css";
 
 // Define the props type, if there are additional props you can add them here
