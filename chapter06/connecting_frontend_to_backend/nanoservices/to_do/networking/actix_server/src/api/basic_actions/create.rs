@@ -16,5 +16,5 @@ use actix_web::{
 pub async fn create(token: HeaderToken, body: Json<ToDoItem>) -> Result<HttpResponse, NanoServiceError> {
     println!("Token: {}", token.message);
     let _ = create_core(body.into_inner()).await?;
-    Ok(HttpResponse::Ok().json(get_all_core().await?))
+    Ok(HttpResponse::Created().json(get_all_core().await?))
 }
