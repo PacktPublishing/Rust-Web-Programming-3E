@@ -36,8 +36,8 @@ const App = () => {
             <div className="App">
             <div className="mainContainer">
                 <div className="header">
-                    <p>complete tasks: {data.done_items_count}</p>
-                    <p>pending tasks: {data.pending_items_count}</p>
+                    <p>complete tasks: {data.done.length}</p>
+                    <p>pending tasks: {data.pending.length}</p>
                 </div>
                 <h1>Pending Items</h1>
                 <div>
