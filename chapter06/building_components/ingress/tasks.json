@@ -1,16 +1,4 @@
 {
-  "countdown": {
-    "title": "countdown",
-    "status": "DONE"
-  },
-  "test": {
-    "title": "test",
-    "status": "PENDING"
-  },
-  "one": {
-    "title": "one",
-    "status": "PENDING"
-  },
   "testing": {
     "title": "testing",
     "status": "PENDING"
@@ -18,5 +6,13 @@
   "washing": {
     "title": "washing",
     "status": "DONE"
+  },
+  "countdown": {
+    "title": "countdown",
+    "status": "DONE"
+  },
+  "one": {
+    "title": "one",
+    "status": "PENDING"
   }
 }
