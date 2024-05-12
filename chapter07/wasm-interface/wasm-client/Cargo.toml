@@ -1,0 +1,17 @@
+[package]
+name = "wasm-client"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0.197", features = ["derive"] }
+tokio = { version = "1.37.0", features = ["full"] }
+bincode = "1.3.3"
+kernel = { path = "../kernel" }
+tokio-util = { version = "0.7", features = ["codec"] }
+bytes = "1.6.0"
+futures = "0.3.30"
+wasmtime-wasi = { version = "20.0.0", features = ["preview1"]}
+wasmtime = "20.0.0"
