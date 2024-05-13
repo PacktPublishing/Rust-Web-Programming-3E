@@ -3,13 +3,10 @@ use wasmtime_wasi::preview1::{self, WasiP1Ctx};
 use wasmtime_wasi::WasiCtxBuilder;
 use std::mem::size_of;
 use std::slice::from_raw_parts;
-use kernel::SomeDataStruct;
-
-#[repr(C)]
-pub struct ResultPointer {
-    ptr: i32,
-    len: i32
-}
+use kernel::{
+    SomeDataStruct, 
+    ResultPointer
+};
 
 
 // An example of executing a WASIp1 "command"
