@@ -929,6 +929,7 @@ dependencies = [
  "actix-cors",
  "actix-web",
  "actix_server",
+ "dal",
  "mime_guess",
  "rust-embed",
  "tokio",

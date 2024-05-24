@@ -5,6 +5,7 @@ use rust_embed::RustEmbed;
 use std::path::Path;
 use to_do_server::api::views_factory as to_do_views_factory;
 use actix_cors::Cors;
+use to_do_dal::migrations::run_migrations as run_todo_migrations;
 
 
 /// Serves the HTML file for the frontend which will load the bundle.js file. 
@@ -71,6 +72,7 @@ fn serve_frontend_asset(path: String) -> HttpResponse {
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    run_todo_migrations().await;
     HttpServer::new(|| {
         let cors = Cors::default().allow_any_origin().allow_any_method().allow_any_header();
         App::new()
