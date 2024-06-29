@@ -40,10 +40,5 @@ pub fn update(ctx: &Context, args: Vec<RedisString>) -> RedisResult {
     };
     user_session.update_last_interacted(ctx)?;
 
-    let user_role = match key.hash_get("user_role")? {
-        Some(v) => v.to_string(),
-        None => return Err(RedisError::Str("User role field does not exist"))
-    };
-
-    Ok(RedisValue::SimpleString(user_role))
+    Ok(RedisValue::SimpleStringStatic("OK"))
 }

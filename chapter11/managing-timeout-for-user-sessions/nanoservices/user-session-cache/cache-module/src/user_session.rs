@@ -1,5 +1,5 @@
 use redis_module::{Context, RedisString, RedisError, RedisResult, RedisValue};
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Utc, NaiveDateTime};
 
 
 /// Handles the key and user_id of a user session
@@ -61,9 +61,12 @@ impl UserSession {
 
         let last_interacted_string = match key.hash_get("last_interacted")? {
             Some(v) => {
-                match DateTime::parse_from_str(&v.to_string(), "%Y-%m-%d %H:%M:%S") {
+                match NaiveDateTime::parse_from_str(&v.to_string(), "%Y-%m-%d %H:%M:%S") {
                     Ok(v) => v,
-                    Err(_) => return Err(RedisError::Str("Could not parse date"))
+                    Err(e) => {
+                        println!("Could not parse date: {:?}", e);
+                        return Err(RedisError::Str("Could not parse date"))
+                    }
                 }
             },
             None => return Err(RedisError::Str("Last interacted field does not exist"))
@@ -73,7 +76,7 @@ impl UserSession {
             None => return Err(RedisError::Str("Timeout mins field does not exist"))
         };
 
-        let time_diff = self.session_datetime.signed_duration_since(last_interacted_string).num_minutes();
+        let time_diff = self.session_datetime.naive_utc().signed_duration_since(last_interacted_string).num_minutes();
 
         if time_diff > timeout_mins.into() {
             match key.delete(){
