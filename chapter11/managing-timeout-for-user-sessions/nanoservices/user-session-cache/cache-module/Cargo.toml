@@ -1,0 +1,11 @@
+[package]
+name = "cache-module"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+redis-module = "2.0.7"
+chrono = "0.4.24"

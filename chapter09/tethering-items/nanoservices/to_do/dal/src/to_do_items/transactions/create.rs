@@ -47,7 +47,7 @@ async fn sqlx_postgres_save_one(item: NewToDoItem, user_id: i32) -> Result<ToDoI
         NanoServiceError::new(e.to_string(), NanoServiceErrorStatus::Unknown)
     })?;
     let _ = sqlx::query("
-        INSERT INTO user_connections (user_id, to_do_item_id) 
+        INSERT INTO user_connections (user_id, to_do_id) 
         VALUES ($1, $2)"
     ).bind(user_id)
     .bind(item.id)

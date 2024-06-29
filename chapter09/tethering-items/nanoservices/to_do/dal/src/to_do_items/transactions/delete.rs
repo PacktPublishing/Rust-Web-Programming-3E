@@ -47,6 +47,15 @@ async fn sqlx_postgres_delete_one(title: String) -> Result<ToDoItem, NanoService
     .fetch_one(&*SQLX_POSTGRES_POOL).await.map_err(|e| {
         NanoServiceError::new(e.to_string(), NanoServiceErrorStatus::Unknown)
     })?;
+    let _ = sqlx::query("
+        DELETE FROM user_connections
+        WHERE to_do_id = $1
+        AND user_id = $2"
+    ).bind(item.id)
+    .bind(user_id)
+    .execute(&*SQLX_POSTGRES_POOL).await.map_err(|e| {
+        NanoServiceError::new(e.to_string(), NanoServiceErrorStatus::Unknown)
+    })?;
     Ok(item)
 }
 
