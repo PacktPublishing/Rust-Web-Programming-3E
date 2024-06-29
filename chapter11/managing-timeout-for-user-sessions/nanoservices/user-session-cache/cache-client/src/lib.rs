@@ -36,7 +36,7 @@ pub async fn login(
         address: &str,
         user_id: &str, 
         timeout_mins: usize
-    ) -> Result<String, NanoServiceError> {
+    ) -> Result<Value, NanoServiceError> {
     let mut con = get_connnection(address).await?;
 
     let result = con
@@ -52,14 +52,15 @@ pub async fn login(
                 NanoServiceErrorStatus::Unknown
             )
         })?;
-    let result_string = unpack_result_string(result)?;
-    Ok(result_string)
+    // println!("{:?}", result);
+    // let result_string = unpack_result_string(result)?;
+    Ok(result)
 }
 
 pub async fn update(
         address: &str,
         user_id: &str
-    ) -> Result<String, NanoServiceError> {
+    ) -> Result<Value, NanoServiceError> {
     let mut con = get_connnection(address).await?;
 
     let result = con
@@ -75,8 +76,8 @@ pub async fn update(
             )
         })?;
     
-    let result_string = unpack_result_string(result)?;
-    Ok(result_string)
+    // let result_string = unpack_result_string(result)?;
+    Ok(result)
 }
 
 pub async fn logout(
@@ -99,4 +100,20 @@ pub async fn logout(
         })?;
     let result_string = unpack_result_string(result)?;
     Ok(result_string)
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+
+    #[tokio::test]
+    async fn test_get_connection() {
+        let address = "redis://0.0.0.0:6379";
+        let result = login(address, "user1", 10).await.unwrap();
+        println!("\n\n\n{:?}\n\n\n", result);
+        let result = update(address, "user1").await;
+        println!("\n\n\n{:?}\n\n\n", result);
+    }
 }

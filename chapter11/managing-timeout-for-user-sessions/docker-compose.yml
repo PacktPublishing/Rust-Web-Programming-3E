@@ -12,3 +12,9 @@ services:
       - 'POSTGRES_USER=username'
       - 'POSTGRES_DB=to_do'
       - 'POSTGRES_PASSWORD=password'
+  cache:
+    container_name: 'to-do-redis'
+    build: './nanoservices/user-session-cache/cache-module'
+    restart: always
+    ports:
+      - '6379:6379'
