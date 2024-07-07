@@ -34,6 +34,7 @@ pub fn login(ctx: &Context, args: Vec<RedisString>) -> RedisResult {
     let key = ctx.open_key_writable(&key_string);
     key.hash_set("last_interacted", ctx.create_string(last_interacted_string));
     key.hash_set("timeout_mins", ctx.create_string(timeout_mins));
+    key.hash_set("counter", ctx.create_string("0"));
 
     Ok(RedisValue::SimpleStringStatic("OK"))
 }
