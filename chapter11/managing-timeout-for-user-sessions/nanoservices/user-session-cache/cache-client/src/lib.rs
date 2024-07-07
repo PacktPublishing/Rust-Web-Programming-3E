@@ -57,10 +57,18 @@ pub async fn login(
     Ok(result)
 }
 
+
+#[derive(Debug)]
+pub enum UserSessionStatus {
+    Ok,
+    Refresh
+}
+
+
 pub async fn update(
         address: &str,
         user_id: &str
-    ) -> Result<Value, NanoServiceError> {
+    ) -> Result<UserSessionStatus, NanoServiceError> {
     let mut con = get_connnection(address).await?;
 
     let result = con
@@ -76,8 +84,39 @@ pub async fn update(
             )
         })?;
     
-    // let result_string = unpack_result_string(result)?;
-    Ok(result)
+    match result {
+        Value::Status(s) => {
+            match s.as_str() {
+                "TIMEOUT" => {
+                    return Err(NanoServiceError::new(
+                        "Session has timed out".to_string(), 
+                        NanoServiceErrorStatus::Unauthorized
+                    ));
+                },
+                "OK" => {
+                    return Ok(UserSessionStatus::Ok)
+                },
+                "REFRESH" => {
+                    return Ok(UserSessionStatus::Refresh)
+                },
+                _ => {
+                    return Err(NanoServiceError::new(
+                        "Unknown status".to_string(), 
+                        NanoServiceErrorStatus::Unknown
+                    ));
+                }
+            }
+        },
+        Value::Okay => {
+            return Ok(UserSessionStatus::Ok)
+        },
+        _ => {
+            return Err(NanoServiceError::new(
+                "Error converting the result into a string".to_string(), 
+                NanoServiceErrorStatus::Unknown
+            ));
+        }
+    }
 }
 
 pub async fn logout(
@@ -111,9 +150,97 @@ mod tests {
     #[tokio::test]
     async fn test_get_connection() {
         let address = "redis://0.0.0.0:6379";
-        let result = login(address, "user1", 10).await.unwrap();
-        println!("\n\n\n{:?}\n\n\n", result);
-        let result = update(address, "user1").await;
-        println!("\n\n\n{:?}\n\n\n", result);
+        let result = login(address, "user1", 1).await.unwrap();
+        // println!("\n\n\n{:?}\n\n\n", result);
+        // let result = update(address, "user1").await.unwrap();
+        // println!("\n\n\n{:?}\n\n\n", result);
+
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+        println!("{:?}", update(address, "user1").await.unwrap());
+
+
+
+        // let five_seconds = std::time::Duration::from_secs(60 * 3);
+        // tokio::time::sleep(five_seconds).await;
+        // let result = update(address, "user1").await;
+        // println!("\n\n\n{:?}\n\n\n", result);
     }
 }

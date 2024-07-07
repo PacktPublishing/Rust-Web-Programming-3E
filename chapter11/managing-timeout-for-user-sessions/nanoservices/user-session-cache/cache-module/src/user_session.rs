@@ -11,7 +11,7 @@ use chrono::{DateTime, Utc, NaiveDateTime};
 pub struct UserSession {
     pub user_id: String,
     pub key: String,
-    pub session_datetime: DateTime<Utc>
+    pub session_datetime: DateTime<Utc>,
 }
 
 
@@ -28,7 +28,7 @@ impl UserSession {
         UserSession {
             user_id: user_id.clone(),
             key: format!("user_session_{}", user_id),
-            session_datetime: Utc::now()
+            session_datetime: Utc::now(),
         }
     }
 
@@ -44,7 +44,7 @@ impl UserSession {
         UserSession {
             user_id: user_id,
             key: key,
-            session_datetime: Utc::now()
+            session_datetime: Utc::now(),
         }
     }
 
@@ -55,7 +55,7 @@ impl UserSession {
     /// 
     /// # Returns
     /// * `RedisResult` - "TIMEOUT" if the user session has timed out, "OK" otherwise
-    pub fn check_timeout(&self, ctx: &Context) -> RedisResult {
+    pub fn check_timeout(&mut self, ctx: &Context) -> RedisResult {
         let key_string = RedisString::create(None, self.key.clone());
         let key = ctx.open_key_writable(&key_string);
 
@@ -85,6 +85,17 @@ impl UserSession {
             };
             return Ok(RedisValue::SimpleStringStatic("TIMEOUT"));
         }
+
+        let mut counter = match self.get_counter(ctx)? {
+            RedisValue::Integer(v) => v,
+            _ => return Err(RedisError::Str("Could not get counter"))
+        
+        };
+        counter += 1;
+        self.save_counter(ctx, counter)?;
+        if counter > 20 {
+            return Ok(RedisValue::SimpleStringStatic("REFRESH"));
+        }
         Ok(RedisValue::SimpleStringStatic("OK"))
     }
 
@@ -104,5 +115,24 @@ impl UserSession {
         key.hash_set("last_interacted", ctx.create_string(last_interacted_string));
 
         Ok(RedisValue::SimpleStringStatic("OK"))
+    }
+
+    pub fn save_counter(&self, ctx: &Context, counter: i64) -> RedisResult {
+        let key_string = RedisString::create(None, self.key.clone());
+        let key = ctx.open_key_writable(&key_string);
+        key.hash_set("counter", ctx.create_string(counter.to_string()));
+        Ok(RedisValue::SimpleStringStatic("OK"))
+    }
+
+    pub fn get_counter(&self, ctx: &Context) -> RedisResult {
+        let key_string = RedisString::create(None, self.key.clone());
+        let key: redis_module::key::RedisKeyWritable = ctx.open_key_writable(&key_string);
+        match key.hash_get("counter")? {
+            Some(v) => {
+                let v = v.to_string().parse::<i64>().unwrap();
+                Ok(RedisValue::Integer(v))
+            },
+            None => Err(RedisError::Str("Counter field does not exist"))
+        }
     }
 }

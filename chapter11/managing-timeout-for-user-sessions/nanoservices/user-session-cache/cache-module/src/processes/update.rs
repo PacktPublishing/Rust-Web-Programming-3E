@@ -20,7 +20,7 @@ pub fn update(ctx: &Context, args: Vec<RedisString>) -> RedisResult {
     let mut args = args.into_iter().skip(1);
     let user_id = args.next_arg()?.to_string();
 
-    let user_session = UserSession::from_id(user_id);
+    let mut user_session = UserSession::from_id(user_id);
 
     let key_string = RedisString::create(None, user_session.key.clone());
     let key = ctx.open_key_writable(&key_string);
@@ -33,12 +33,16 @@ pub fn update(ctx: &Context, args: Vec<RedisString>) -> RedisResult {
         RedisValue::SimpleStringStatic("TIMEOUT") => {
             return Ok(RedisValue::SimpleStringStatic("TIMEOUT"));
         },
-        RedisValue::SimpleStringStatic("OK") => {},
+        RedisValue::SimpleStringStatic("REFRESH") => {
+            user_session.update_last_interacted(ctx)?;
+            return Ok(RedisValue::SimpleStringStatic("REFRESH"));
+        },
+        RedisValue::SimpleStringStatic("OK") => {
+            user_session.update_last_interacted(ctx)?;
+            return Ok(RedisValue::SimpleStringStatic("OK"));
+        },
         _ => {
             return Err(RedisError::Str("Could not check timeout"));
         }
     };
-    user_session.update_last_interacted(ctx)?;
-
-    Ok(RedisValue::SimpleStringStatic("OK"))
 }
