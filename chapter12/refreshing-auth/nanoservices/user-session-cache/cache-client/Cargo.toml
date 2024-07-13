@@ -1,0 +1,9 @@
+[package]
+name = "cache-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+redis = { version = "0.25.4", features = ["tokio-comp"] }
+tokio = { version = "1.38.0", features = ["full"] }
+glue = { path = "../../../glue"}

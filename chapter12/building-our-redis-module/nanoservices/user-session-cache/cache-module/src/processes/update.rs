@@ -38,7 +38,14 @@ pub fn update(ctx: &Context, args: Vec<RedisString>) -> RedisResult {
         },
         RedisValue::SimpleStringStatic("OK") => {
             user_session.update_last_interacted(ctx)?;
-            return Ok(RedisValue::SimpleStringStatic("OK"));
+            let perm_user_id = match key.hash_get("perm_user_id")? {
+                Some(perm_user_id) => perm_user_id,
+                None => {
+                    return Err(RedisError::Str("Could not get perm_user_id"));
+                }
+            };
+            
+            return Ok(RedisValue::SimpleString(perm_user_id.to_string()));
         },
         _ => {
             return Err(RedisError::Str("Could not check timeout"));
