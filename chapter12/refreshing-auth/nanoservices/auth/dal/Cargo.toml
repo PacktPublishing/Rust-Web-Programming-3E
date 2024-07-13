@@ -1,0 +1,13 @@
+[package]
+name = "auth-dal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde ={ version="1.0.197", features = ["derive"] }
+glue = { path = "../../../glue"}
+sqlx = { version = "0.7.4", features = ["postgres", "json", "runtime-tokio"], optional = false }
+once_cell = { version = "1.19.0", optional = false }
+argon2 = { version = "0.5.3", features = ["password-hash"]}
+uuid = {version = "1.8.0", features = ["serde", "v4"]}
+rand = "0.8.5"

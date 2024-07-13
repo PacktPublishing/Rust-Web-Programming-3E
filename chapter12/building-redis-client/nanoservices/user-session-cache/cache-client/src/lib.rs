@@ -35,7 +35,8 @@ fn unpack_result_string(result: Value) -> Result<String, NanoServiceError> {
 pub async fn login(
         address: &str,
         user_id: &str, 
-        timeout_mins: usize
+        timeout_mins: usize,
+        perm_user_id: i32
     ) -> Result<(), NanoServiceError> {
     let mut con = get_connnection(address).await?;
 
@@ -44,6 +45,7 @@ pub async fn login(
             &redis::cmd("login.set")
                 .arg(user_id)
                 .arg(timeout_mins)
+                .arg(perm_user_id.to_string())
                 .clone(),
         )
         .await.map_err(|e|{
@@ -52,20 +54,23 @@ pub async fn login(
                 NanoServiceErrorStatus::Unknown
             )
         })?;
-    let result_string = unpack_result_string(result)?;
-    if result_string != "OK" {
-        return Err(NanoServiceError::new(
-            result_string, 
-            NanoServiceErrorStatus::Unknown
-        ));
+    match result {
+        Value::Okay => {
+            return Ok(());
+        },
+        _ => {
+            return Err(NanoServiceError::new(
+                format!("{:?}", result), 
+                NanoServiceErrorStatus::Unknown
+            ));
+        }
     }
-    Ok(())
 }
 
 
 #[derive(Debug)]
 pub enum UserSessionStatus {
-    Ok,
+    Ok(i32),
     Refresh
 }
 
@@ -88,21 +93,7 @@ pub async fn update(
                 NanoServiceErrorStatus::Unknown
             )
         })?;
-    
-    let result = match result {
-        Value::Status(s) => {
-            s
-        },
-        Value::Okay => {
-            return Ok(UserSessionStatus::Ok)
-        },
-        _ => {
-            return Err(NanoServiceError::new(
-                "Error converting the result into a string".to_string(), 
-                NanoServiceErrorStatus::Unknown
-            ));
-        }
-    };
+    let result = unpack_result_string(result)?;
     match result.as_str() {
         "TIMEOUT" => {
             return Err(NanoServiceError::new(
@@ -110,19 +101,27 @@ pub async fn update(
                 NanoServiceErrorStatus::Unauthorized
             ));
         },
-        "OK" => {
-            return Ok(UserSessionStatus::Ok)
+        "NOT_FOUND" => {
+            return Err(NanoServiceError::new(
+                "Session not found".to_string(), 
+                NanoServiceErrorStatus::Unauthorized
+            ));
         },
         "REFRESH" => {
             return Ok(UserSessionStatus::Refresh)
         },
-        _ => {
+        _ => {}
+    }
+    let perm_user_id = match result.parse::<i32>() {
+        Ok(perm_user_id) => perm_user_id,
+        Err(_) => {
             return Err(NanoServiceError::new(
-                "Unknown status".to_string(), 
+                "Error converting the result into a string".to_string(), 
                 NanoServiceErrorStatus::Unknown
             ));
         }
-    }
+    };
+    Ok(UserSessionStatus::Ok(perm_user_id))
 }
 
 pub async fn logout(
