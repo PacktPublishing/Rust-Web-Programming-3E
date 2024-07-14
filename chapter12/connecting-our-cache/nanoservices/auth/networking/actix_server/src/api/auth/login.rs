@@ -3,7 +3,6 @@ use auth_dal::users::transactions::get::GetByEmail;
 use glue::errors::{NanoServiceError, NanoServiceErrorStatus};
 use crate::extract_auth::extract_credentials;
 use auth_core::api::auth::login::login as core_login;
-use cache_client::login as cache_login;
 use auth_kernel::user_session::transactions::login::LoginUserSession;
 
 
