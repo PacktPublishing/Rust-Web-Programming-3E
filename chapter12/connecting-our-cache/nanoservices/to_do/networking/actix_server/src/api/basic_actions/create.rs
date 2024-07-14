@@ -15,12 +15,16 @@ use actix_web::{
     HttpResponse,
     web::Json
 };
-use auth_kernel::user_session::UserSession;
+use auth_kernel::user_session::transactions::get::GetUserSession;
 
 
-pub async fn create<T: SaveOne + GetAll>(token: HeaderToken, body: Json<NewToDoItem>) 
-    -> Result<HttpResponse, NanoServiceError> {
-    let session = UserSession::new(token.unique_id).await?;
+pub async fn create<T, X>(token: HeaderToken, body: Json<NewToDoItem>) 
+    -> Result<HttpResponse, NanoServiceError>
+where
+    T: SaveOne + GetAll,
+    X: GetUserSession
+{
+    let session = X::get_user_session(token.unique_id).await?;
     let _ = create_core::<T>(body.into_inner(), session.user_id).await?;
     Ok(HttpResponse::Created().json(get_all_core::<T>(session.user_id).await?))
 }

@@ -4,9 +4,15 @@ use glue::errors::{NanoServiceError, NanoServiceErrorStatus};
 use crate::extract_auth::extract_credentials;
 use auth_core::api::auth::login::login as core_login;
 use cache_client::login as cache_login;
+use auth_kernel::user_session::transactions::login::LoginUserSession;
 
 
-pub async fn login<T: GetByEmail>(req: actix_web::HttpRequest) -> Result<HttpResponse, NanoServiceError> {
+pub async fn login<T, X>(req: actix_web::HttpRequest) 
+-> Result<HttpResponse, NanoServiceError> 
+where 
+    T: GetByEmail,
+    X: LoginUserSession
+{
     let credentials = extract_credentials(req).await?;
     let token = core_login::<T>(credentials.email.clone(), credentials.password).await?;
 
@@ -17,8 +23,7 @@ pub async fn login<T: GetByEmail>(req: actix_web::HttpRequest) -> Result<HttpRes
             NanoServiceErrorStatus::Unknown
         )
     })?;
-
-    let _ = cache_login(
+    let _ = X::login_user_session(
         &url,
         &user.unique_id,
         20,
