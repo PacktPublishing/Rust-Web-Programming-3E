@@ -17,11 +17,15 @@ use glue::{
         NanoServiceErrorStatus
     }
 };
-use auth_kernel::user_session::UserSession;
+use auth_kernel::user_session::transactions::get::GetUserSession;
 
 
-pub async fn delete_by_name<T: DeleteOne + GetAll>(token: HeaderToken, req: HttpRequest) -> Result<HttpResponse, NanoServiceError> {
-    let session = UserSession::new(token.unique_id).await?;
+pub async fn delete_by_name<T, X>(token: HeaderToken, req: HttpRequest) -> Result<HttpResponse, NanoServiceError> 
+where
+    T: DeleteOne + GetAll,
+    X: GetUserSession
+{
+    let session = X::get_user_session(token.unique_id).await?;
     match req.match_info().get("name") {
         Some(name) => {
             delete_core::<T>(name, session.user_id).await?;

@@ -3,10 +3,14 @@ use core::api::basic_actions::get::get_all as get_all_core;
 use actix_web::HttpResponse;
 use glue::errors::NanoServiceError;
 use glue::token::HeaderToken;
-use auth_kernel::user_session::UserSession;
+use auth_kernel::user_session::transactions::get::GetUserSession;
 
 
-pub async fn get_all<T: GetAll>(token: HeaderToken) -> Result<HttpResponse, NanoServiceError> {
-    let session = UserSession::new(token.unique_id).await?;
+pub async fn get_all<T, X>(token: HeaderToken) -> Result<HttpResponse, NanoServiceError> 
+where
+    T: GetAll,
+    X: GetUserSession
+{
+    let session = X::get_user_session(token.unique_id).await?;
     Ok(HttpResponse::Ok().json(get_all_core::<T>(session.user_id).await?))
 }
