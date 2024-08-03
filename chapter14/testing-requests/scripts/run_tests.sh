@@ -7,3 +7,4 @@ cd $SCRIPTPATH
 cd ..
 
 cargo test -p core
+cargo test -p actix_server
