@@ -1,32 +1,32 @@
-#[cfg(any(feature = "auth-core", feature = "reqwest"))]
+#[cfg(any(feature = "core-postgres", feature = "http"))]
 mod common_imports {
     pub use auth_dal::users::schema::TrimmedUser;
     pub use auth_dal::users::descriptors::SqlxPostGresDescriptor;
     pub use glue::errors::{NanoServiceError, NanoServiceErrorStatus};
     pub use glue::token::HeaderToken;
 }
-#[cfg(any(feature = "auth-core", feature = "reqwest"))]
+#[cfg(any(feature = "core-postgres", feature = "http"))]
 use common_imports::*;
-#[cfg(feature = "auth-core")]
+#[cfg(feature = "core-postgres")]
 use auth_core::api::users::get::get_by_unique_id as get_by_unique_id_core;
-#[cfg(feature = "reqwest")]
+#[cfg(feature = "http")]
 use reqwest::Client;
 
 
-#[cfg(any(feature = "auth-core", feature = "reqwest"))]
+#[cfg(any(feature = "core-postgres", feature = "http"))]
 pub async fn get_user_by_unique_id(id: String) -> Result<TrimmedUser, NanoServiceError> {
 
-    #[cfg(feature = "auth-core")]
+    #[cfg(feature = "core-postgres")]
     let user: TrimmedUser = get_by_unique_id_core::<SqlxPostGresDescriptor>(id).await?.into();
 
-    #[cfg(feature = "reqwest")]
+    #[cfg(feature = "http")]
     let user: TrimmedUser = get_user_by_unique_id_api_call(id).await?.into();
 
     return Ok(user)
 }
 
 
-#[cfg(feature = "reqwest")]
+#[cfg(feature = "http")]
 async fn get_user_by_unique_id_api_call(id: String) -> Result<TrimmedUser, NanoServiceError> {
     let url = std::env::var("AUTH_API_URL").map_err(|e|{
         NanoServiceError::new(e.to_string(), NanoServiceErrorStatus::BadRequest)

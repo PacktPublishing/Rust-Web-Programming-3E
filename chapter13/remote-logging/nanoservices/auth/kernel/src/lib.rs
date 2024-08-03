@@ -1,3 +1,3 @@
 pub mod api;
-#[cfg(any(feature = "auth-core", feature = "reqwest"))]
+#[cfg(any(feature = "core-postgres", feature = "http"))]
 pub mod user_session;
