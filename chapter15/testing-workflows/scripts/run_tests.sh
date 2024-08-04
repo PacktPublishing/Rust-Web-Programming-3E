@@ -47,13 +47,10 @@ sleep 1
 cargo build -p auth_actix_server
 cargo run -p auth_actix_server > ./logs/auth_server.log &
 auth_server_pid=$!
-sleep 1
 
 cargo test -p to-do-atomic-http-tests -- \
 --test-threads=1 --nocapture \
 > ./logs/to-do-atomic-http-tests.log
-
-sleep 1
 
 cargo test -p to-do-http-workflow-tests -- \
 --test-threads=1 --nocapture \
