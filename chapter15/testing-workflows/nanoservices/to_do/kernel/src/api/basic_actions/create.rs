@@ -39,7 +39,7 @@ async fn create_item_api_call(token: common_imports::HeaderToken, title: String,
 
     let client = reqwest_imports::Client::new();
     let response = client
-        .get(&full_url)
+        .post(&full_url)
         .header("token", token.encode()?)
         .json(&body)
         .send()
