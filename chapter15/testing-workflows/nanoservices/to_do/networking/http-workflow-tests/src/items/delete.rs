@@ -33,17 +33,15 @@ mod tests {
             email: "test@gmail.com".to_string(),
             password: "test".to_string(),
         };
-
-        println!("creating user");
         create_user(user).await.unwrap();
-        println!("user created");
 
-        let token = login_user("test@gmail.com".to_string(), "test".to_string()).await.unwrap();
-        println!("user logged in");
+        let token = login_user(
+            "test@gmail.com".to_string(), 
+            "test".to_string()
+        ).await.unwrap();
 
         let header_token = HeaderToken::decode(&token).unwrap();
         let header_token_ref = HeaderToken::decode(&token).unwrap();
-        println!("token decoded");
 
         let items = match create_item(
             header_token_ref, 
@@ -59,8 +57,10 @@ mod tests {
         assert_eq!(items.done.len(), 0);
         assert_eq!(items.pending.len(), 1);
 
-        let items = delete_item(header_token, "code".to_string()).await.unwrap();
-
+        let items = delete_item(
+            header_token, 
+            "code".to_string()
+        ).await.unwrap();
         assert_eq!(items.done.len(), 0);
         assert_eq!(items.pending.len(), 0);
     }

@@ -39,7 +39,7 @@ async fn create_user_api_call(user: common_imports::CreateUser)
     let full_url = format!("{}/api/v1/users/create", url);
 
     let client = reqwest_imports::Client::new();
-    let _ = client
+    let response = client
         .post(&full_url)
         .json(&user)
         .send()
@@ -51,5 +51,15 @@ async fn create_user_api_call(user: common_imports::CreateUser)
             )
         })?;
 
+    let status_code = response.status().as_u16();
+
+    if status_code != 201 {
+        return Err(common_imports::NanoServiceError::new(
+            response.text().await.unwrap_or_else(|_| "Unknown error".to_string()),
+            reqwest_imports::NanoServiceErrorStatus::from_code(
+                status_code
+            )
+        ))
+    }
     return Ok(())
 }
