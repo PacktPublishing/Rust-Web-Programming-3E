@@ -40,14 +40,26 @@ cargo test -p dal --features sqlx-postgres \
 -- --test-threads=1 > ./logs/dal.log
 
 cargo build -p actix_server
-cargo run -p actix_server &
+cargo run -p actix_server > ./logs/todo_server.log &
 to_do_server_pid=$!
+sleep 1
+
+cargo build -p auth_actix_server
+cargo run -p auth_actix_server > ./logs/auth_server.log &
+auth_server_pid=$!
 sleep 1
 
 cargo test -p to-do-atomic-http-tests -- \
 --test-threads=1 --nocapture \
 > ./logs/to-do-atomic-http-tests.log
 
+sleep 1
+
+cargo test -p to-do-http-workflow-tests -- \
+--test-threads=1 --nocapture \
+> ./logs/to-do-http-workflow-tests.log
+
 docker-compose down
 
 kill $to_do_server_pid
+kill $auth_server_pid

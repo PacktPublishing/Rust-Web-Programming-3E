@@ -1,10 +1,10 @@
 use auth_dal::users::schema::{NewUser, User};
 use auth_dal::users::transactions::create::SaveOne;
 use glue::errors::NanoServiceError;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct CreateUser {
     pub email: String,
     pub password: String
