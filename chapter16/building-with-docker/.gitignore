@@ -1,0 +1,5 @@
+*.log
+builds/.terraform/
+builds/.terraform.lock.hcl
+builds/terraform.tfstate
+builds/terraform.tfstate.backup

@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+
+  ingress:
+    image: compute-unit
+    environment:
+      - 'TO_DO_DB_URL=postgres://username:password@postgres/to_do'
+      - 'AUTH_DB_URL=postgres://username:password@postgres/to_do'
+      - 'AUTH_API_URL=http://127.0.0.1:8081'
+      - 'TO_DO_API_URL=http://127.0.0.1:8080'
+      - 'JWT_SECRET=secret'
+      - 'CACHE_API_URL=redis://cache:6379'
+      - 'ELASTICSEARCH_URL=http://elasticsearch:9200/logs/_doc'
+    ports:
+      - "8001:8001"
+  
+    depends_on:
+      postgres:
+        condition: service_started
+  nginx:
+    container_name: 'nginx'
+    image: "nginx:latest"
+    ports:
+      - "80:80"
+    links:
+      - ingress
+    volumes:
+      - ./ingress/nginx.conf:/etc/nginx/nginx.conf
