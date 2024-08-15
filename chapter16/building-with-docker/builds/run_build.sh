@@ -50,8 +50,11 @@ ec2-user@$IP_ADDRESS:/home/ec2-user/
 
 scp -i "~/.ssh/keys/remotebuild.pem" \
 -o StrictHostKeyChecking=no \
-../Dockerfile \
+../Dockerfile.x86 \
 ec2-user@$IP_ADDRESS:/home/ec2-user/
+
+USERNAME=$1
+PASSWORD=$2
 
 ssh -i "~/.ssh/keys/remotebuild.pem" \
 -o StrictHostKeyChecking=no -t \
@@ -62,13 +65,17 @@ ec2-user@$IP_ADDRESS << EOF
         sleep 3
     done
     echo "File found"
-    sudo curl https://sh.rustup.rs -sSf | bash -s -- -y
-    source ~/.cargo/env
-    export $(cat .env | xargs)
-    cd ingress
-    cd frontend
-    npm install
-    npm run build
-    cd ..
-    cargo build --release
+    sudo yum install docker -y
+    sudo usermod -a -G docker ec2-user
+    sudo systemctl start docker.service
+    sudo docker login -u $USERNAME -p $PASSWORD
+    sudo docker build . -f Dockerfile.x86 -t compute-unit
+    sudo docker tag compute-unit $USERNAME/compute-unit:latest
+    sudo docker push $USERNAME/compute-unit:latest
+    cd ingress/frontend && sudo docker build . -t front-unit
+    sudo docker tag front-unit $USERNAME/front-unit:latest
+    sudo docker push $USERNAME/front-unit:latest
+    cd ../../nanoservices/user-session-cache/cache-module && sudo docker build . -t redis-cache
+    sudo docker tag redis-cache $USERNAME/redis-cache:latest
+    sudo docker push $USERNAME/redis-cache:latest
 EOF

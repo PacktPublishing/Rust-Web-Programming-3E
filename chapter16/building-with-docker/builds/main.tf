@@ -21,7 +21,6 @@ resource "aws_instance" "build_server" {
     tags = {
     Name = "to-do build server"
     }
-
     # root disk
     root_block_device {
       volume_size = "150"
