@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+  auth:
+    image: compute-unit
+    environment:
+      - 'TO_DO_DB_URL=postgres://username:password@postgres/to_do'
+      - 'AUTH_DB_URL=postgres://username:password@postgres/to_do'
+      - 'AUTH_API_URL=http://auth:8081'
+      - 'TO_DO_API_URL=http://to_do:8080'
+      - 'JWT_SECRET=secret'
+      - 'CACHE_API_URL=redis://cache:6379'
+      - 'ELASTICSEARCH_URL=http://elasticsearch:9200/logs/_doc'
+    ports:
+      - "8081:8081"
+    command: ["auth_actix_server"]
+  
+    depends_on:
+      postgres:
+        condition: service_started
