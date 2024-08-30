@@ -9,4 +9,5 @@ node_modules/**
 **/bundle.js.map
 *.crt
 *.key
+*.wasm
 
