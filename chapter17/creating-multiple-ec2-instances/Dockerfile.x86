@@ -1,0 +1,44 @@
+FROM rust as build
+
+RUN apt-get update && apt-get install -y libpq-dev
+RUN apt-get install libssl-dev -y
+
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+    
+# Install wasm-pack
+RUN cargo install wasm-pack
+
+WORKDIR /app
+COPY . .
+
+RUN cd ingress/frontend && npm install && npm run wasm && npm run build
+RUN cargo build --release -p ingress
+RUN cargo build --release -p actix_server --features=auth-http --no-default-features
+RUN cargo build --release -p auth_actix_server
+
+RUN strip /app/target/release/ingress
+RUN strip /app/target/release/actix_server
+RUN strip /app/target/release/auth_actix_server
+
+FROM gcr.io/distroless/cc-debian12
+
+# Copy the libraries dynamically discovered during the build stage
+COPY --chown=1001:1001 --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
+COPY --chown=1001:1001 --from=build /lib/x86_64-linux-gnu/libssl.so.3 /lib/x86_64-linux-gnu/libssl.so.3
+COPY --chown=1001:1001 --from=build /lib/x86_64-linux-gnu/libcrypto.so.3 /lib/x86_64-linux-gnu/libcrypto.so.3
+COPY --chown=1001:1001 --from=build /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so.1
+COPY --chown=1001:1001 --from=build /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.6
+COPY --chown=1001:1001 --from=build /lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/libc.so.6
+
+# Copy the built binary
+COPY --from=build /app/target/release/ingress /usr/local/bin/ingress
+COPY --from=build /app/target/release/actix_server /usr/local/bin/actix_server
+COPY --from=build /app/target/release/auth_actix_server /usr/local/bin/auth_actix_server
+
+EXPOSE 8001
+EXPOSE 8081
+EXPOSE 8080
+
+CMD ["ingress"]

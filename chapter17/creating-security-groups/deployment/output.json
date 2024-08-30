@@ -1,0 +1,77 @@
+{
+  "db_endpoint": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "terraform-20240821005305061400000003.cvrb7bxugzbi.eu-west-2.rds.amazonaws.com:5432"
+    ]
+  },
+  "ec2_global_ips": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string",
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "18.133.237.8",
+        "18.130.3.88"
+      ]
+    ]
+  },
+  "instance_id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string",
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "i-02d0b90e74a46fb1e",
+        "i-0e72501c06d58d022"
+      ]
+    ]
+  },
+  "public_dns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string",
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "ec2-18-133-237-8.eu-west-2.compute.amazonaws.com",
+        "ec2-18-130-3-88.eu-west-2.compute.amazonaws.com"
+      ]
+    ]
+  }
+}

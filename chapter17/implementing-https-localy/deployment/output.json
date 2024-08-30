@@ -1,0 +1,26 @@
+{
+  "db_endpoint": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "terraform-20240815002234227800000002.cvrb7bxugzbi.eu-west-2.rds.amazonaws.com:5432"
+    ]
+  },
+  "ec2_global_ips": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "35.176.168.205"
+    ]
+  }
+}
