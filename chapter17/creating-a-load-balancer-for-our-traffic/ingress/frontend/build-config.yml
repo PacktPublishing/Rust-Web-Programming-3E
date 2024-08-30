@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+
+  nginx:
+    build: ./ingress/frontend/
+    ports:
+      - "80:80"
+    links:
+      - auth
+      - to_do
