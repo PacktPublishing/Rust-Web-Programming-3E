@@ -1,0 +1,21 @@
+{
+  "ec2_global_ips": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "tuple",
+          [
+            "string"
+          ]
+        ]
+      ]
+    ],
+    "value": [
+      [
+        "52.56.83.99"
+      ]
+    ]
+  }
+}
