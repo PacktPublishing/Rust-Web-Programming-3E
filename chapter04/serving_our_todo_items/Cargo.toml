@@ -1,8 +1,0 @@
-
-[workspace]
-resolver = "2"
-members = [
-    "to_do/core",
-    "to_do/dal",
-    "to_do/networking/actix_server"
-]

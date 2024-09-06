@@ -1,0 +1,6 @@
+[package]
+name = "understanding-asynchronous-programming"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
