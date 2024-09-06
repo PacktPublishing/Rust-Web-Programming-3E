@@ -1,0 +1,10 @@
+[package]
+name = "implementing-our-own-async-task-queue"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-task = "4.7.0"
+futures-lite = "2.2.0"
+once_cell = "1.19.0"
+flume = "0.11.0"
