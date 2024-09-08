@@ -11,18 +11,28 @@ use actix_web::{
 };
 
 #[cfg(feature = "rocket")]
-use rocket::http::Status;
-#[cfg(feature = "rocket")]
-use rocket::response::{Responder, Response};
-#[cfg(feature = "rocket")]
-use rocket::Request;
+use rocket::{
+    http::Status,
+    response::{Responder, Response},
+    rocket::Request,
+};
 
 #[cfg(feature = "axum")]
 use axum::{
     response::{IntoResponse, Response as AxumResponse},
     http::StatusCode as AxumStatusCode,
+    Json
 };
-use axum::Json;
+
+#[cfg(feature = "hyper")]
+use hyper::{
+    Response as HyperResponse, 
+    body::Bytes, 
+    StatusCode as HyperStatusCode,
+    header
+};
+#[cfg(feature = "hyper")]
+use http_body_util::Full;
 
 
 /// The status of the error.
@@ -142,5 +152,27 @@ impl IntoResponse for NanoServiceError {
         };
         
         (status_code, Json(self.message)).into_response()
+    }
+}
+
+#[cfg(feature = "hyper")]
+impl NanoServiceError {
+    pub fn into_hyper_response(self) -> HyperResponse<Full<Bytes>> {
+        let status_code = match self.status {
+            NanoServiceErrorStatus::NotFound => HyperStatusCode::NOT_FOUND,
+            NanoServiceErrorStatus::Forbidden => HyperStatusCode::FORBIDDEN,
+            NanoServiceErrorStatus::Unknown => HyperStatusCode::INTERNAL_SERVER_ERROR,
+            NanoServiceErrorStatus::BadRequest => HyperStatusCode::BAD_REQUEST,
+            NanoServiceErrorStatus::Conflict => HyperStatusCode::CONFLICT,
+            NanoServiceErrorStatus::Unauthorized => HyperStatusCode::UNAUTHORIZED,
+        };
+
+        let json_body = serde_json::to_string(&self.message).unwrap();
+
+        HyperResponse::builder()
+                .header(header::CONTENT_TYPE, "application/json")
+                .status(status_code)
+                .body(Full::new(Bytes::from(json_body)))
+                .unwrap()
     }
 }
