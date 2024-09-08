@@ -873,7 +873,12 @@ name = "glue"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "axum",
+ "http-body-util",
+ "hyper 1.4.1",
+ "rocket",
  "serde",
+ "serde_json",
  "thiserror",
 ]
 
