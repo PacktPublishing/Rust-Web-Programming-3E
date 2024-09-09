@@ -4,6 +4,7 @@ use crate::structs::ToDoItem;
 
 #[cfg(feature = "json-file-storage")]
 use to_do_dal::json_file::save_one;
+use glue::errors::NanoServiceError;
 
 
 /// This function creates a new item based on the title and status provided.
@@ -18,7 +19,7 @@ use to_do_dal::json_file::save_one;
 /// # Returns
 /// An `ItemTypes` enum representing the item created.
 pub fn create(title: &str, status: TaskStatus) 
-    -> Result<ToDoItem, String> {
+    -> Result<ToDoItem, NanoServiceError> {
     let item = ToDoItem {
         title: title.to_string(),
         status

@@ -3,6 +3,7 @@ mod enums;
 mod structs;
 mod api;
 use api::basic_actions::create::create;
+use glue::errors::NanoServiceError;
 use crate::enums::TaskStatus;
 use clap::Parser;
 
@@ -16,7 +17,7 @@ struct Args {
     status: String,
 }
 
-fn main() -> Result<(), String> {
+fn main() -> Result<(), NanoServiceError> {
     let args = Args::parse();
     let status_enum = TaskStatus::from_string(
         &args.status

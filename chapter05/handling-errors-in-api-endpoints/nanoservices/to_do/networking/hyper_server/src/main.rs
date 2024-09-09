@@ -24,9 +24,14 @@ async fn handle(req: Request<hyper::body::Incoming>)
     let path = req.uri().path();
     let response = match (req.method(), path) {
         (&Method::GET, "/api/v1/get/all") => api::basic_actions::get::get_all().await,
-        _ => not_found(),
+        _ => Ok(not_found()),
     };
-    Ok(response)
+    match response {
+        Ok(response) => Ok(response),
+        Err(err) => {
+            Ok(err.into_hyper_response())
+        }
+    }
 }
 
 /// Returns a 404 Not Found response.

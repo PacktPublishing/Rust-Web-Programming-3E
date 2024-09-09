@@ -8,3 +8,4 @@ edition = "2021"
 tokio = { version = "1.36.0", features = ["full"] }
 axum = { version = "0.7.5" }
 to-do-core = { path = "../../core" }
+glue = { path = "../../../../glue", features = ["axum"] }

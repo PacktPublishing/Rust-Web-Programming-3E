@@ -7,6 +7,7 @@ edition = "2021"
 clap = { version = "4.5.16", features = ["derive"] }
 serde = { version = "1.0.197", features = ["derive"] }
 to-do-dal = { path = "../dal" }
+glue = { path = "../../../glue"}
 
 [features]
 json-file-storage = ["to-do-dal/json-file"]
