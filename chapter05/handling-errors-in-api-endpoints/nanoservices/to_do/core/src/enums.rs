@@ -1,5 +1,6 @@
 //! File: to_do/core/src/enums.rs
 use std::fmt;
+use glue::errors::{NanoServiceError, NanoServiceErrorStatus};
 use serde::{Serialize, Deserialize};
 
 
@@ -39,11 +40,16 @@ impl TaskStatus {
     /// # Returns
     /// the constructe TaskStatus enum if the string is valid, otherwise an error message
     pub fn from_string(status: &String) 
-        -> Result<TaskStatus, String> {
+        -> Result<TaskStatus, NanoServiceError> {
         match status.to_uppercase().as_str() {
             "DONE" => Ok(TaskStatus::DONE),
             "PENDING" => Ok(TaskStatus::PENDING),
-            _ => Err(format!("Invalid status: {}", status))
+            _ => Err(
+                NanoServiceError::new(
+                    "Invalid status".to_string(), 
+                    NanoServiceErrorStatus::BadRequest
+                )
+            )
         }
     }
 }

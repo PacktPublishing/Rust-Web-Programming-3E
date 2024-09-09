@@ -3,13 +3,14 @@ use crate::structs::{
     ToDoItem,
     AllToDoItems
 };
+use glue::errors::NanoServiceError;
 
 
 /// Gets all tasks from the JSON file.
 /// 
 /// # Returns
 /// An `AllToDoItems` struct.
-pub async fn get_all() -> Result<AllToDoItems, String> {
+pub async fn get_all() -> Result<AllToDoItems, NanoServiceError> {
     Ok(AllToDoItems::from_hashmap(
         get_all_handle::<ToDoItem>()?
     ))

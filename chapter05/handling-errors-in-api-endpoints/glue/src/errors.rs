@@ -14,7 +14,7 @@ use actix_web::{
 use rocket::{
     http::Status,
     response::{Responder, Response},
-    rocket::Request,
+    Request,
 };
 
 #[cfg(feature = "axum")]
@@ -175,4 +175,22 @@ impl NanoServiceError {
                 .body(Full::new(Bytes::from(json_body)))
                 .unwrap()
     }
+}
+
+
+#[macro_export]
+macro_rules! safe_eject {
+    ($e:expr, $err_status:expr) => {
+        $e.map_err(|x| NanoServiceError::new(
+            x.to_string(), 
+            $err_status)
+        )
+    };
+    ($e:expr, $err_status:expr, $message_context:expr) => {
+        $e.map_err(|x| NanoServiceError::new(
+                format!("{}: {}", $message_context, x.to_string()),
+                $err_status
+            )
+        )
+    };
 }

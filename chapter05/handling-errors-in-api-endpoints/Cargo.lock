@@ -1999,6 +1999,7 @@ name = "to-do-actix-server"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "glue",
  "to-do-core",
  "tokio",
 ]
@@ -2008,6 +2009,7 @@ name = "to-do-axum-server"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "glue",
  "to-do-core",
  "tokio",
 ]
@@ -2017,6 +2019,7 @@ name = "to-do-core"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "glue",
  "serde",
  "to-do-dal",
 ]
@@ -2025,6 +2028,7 @@ dependencies = [
 name = "to-do-dal"
 version = "0.1.0"
 dependencies = [
+ "glue",
  "serde",
  "serde_json",
 ]
@@ -2034,6 +2038,7 @@ name = "to-do-hyper-server"
 version = "0.1.0"
 dependencies = [
  "bytes",
+ "glue",
  "http-body-util",
  "hyper 1.4.1",
  "hyper-util",
@@ -2046,6 +2051,7 @@ dependencies = [
 name = "to-do-rocket-server"
 version = "0.1.0"
 dependencies = [
+ "glue",
  "rocket",
  "to-do-core",
 ]
