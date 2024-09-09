@@ -11,4 +11,4 @@ tokio = { version = "1.16.1", features = ["full"] }
 dal  = { path = "../../dal", features = ["sqlx-postgres"] }
 auth-dal = { path = "../../../auth/dal" }
 glue = { path = "../../../../glue" }
-sqlx = { version = "0.7.4", features = ["postgres", "json", "runtime-tokio"] }
+sqlx = { version = "0.8.1", features = ["postgres", "json", "runtime-tokio"] }
