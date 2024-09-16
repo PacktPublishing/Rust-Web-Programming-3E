@@ -14,7 +14,7 @@ data "aws_acm_certificate" "issued_certificate" {
     statuses = ["ISSUED"]
 }
 data "aws_acm_certificate" "raw_cert" {
-    domain   = "pubsub.me"
+    domain   = "*.pubsub.me"
     statuses = ["ISSUED"]
 }
 
