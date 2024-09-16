@@ -8,7 +8,7 @@
       ]
     ],
     "value": [
-      "terraform-20240821005305061400000003.cvrb7bxugzbi.eu-west-2.rds.amazonaws.com:5432"
+      "terraform-20240913225851626700000001.cvrb7bxugzbi.eu-west-2.rds.amazonaws.com:5432"
     ]
   },
   "ec2_global_ips": {
@@ -19,7 +19,6 @@
         [
           "tuple",
           [
-            "string",
             "string"
           ]
         ]
@@ -27,8 +26,7 @@
     ],
     "value": [
       [
-        "18.133.237.8",
-        "18.130.3.88"
+        "3.8.160.243"
       ]
     ]
   },
@@ -40,7 +38,6 @@
         [
           "tuple",
           [
-            "string",
             "string"
           ]
         ]
@@ -48,8 +45,7 @@
     ],
     "value": [
       [
-        "i-02d0b90e74a46fb1e",
-        "i-0e72501c06d58d022"
+        "i-0c8a988ad32ae8cf5"
       ]
     ]
   },
@@ -61,7 +57,6 @@
         [
           "tuple",
           [
-            "string",
             "string"
           ]
         ]
@@ -69,8 +64,7 @@
     ],
     "value": [
       [
-        "ec2-18-133-237-8.eu-west-2.compute.amazonaws.com",
-        "ec2-18-130-3-88.eu-west-2.compute.amazonaws.com"
+        "ec2-3-8-160-243.eu-west-2.compute.amazonaws.com"
       ]
     ]
   }
