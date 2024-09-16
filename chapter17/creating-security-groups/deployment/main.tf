@@ -32,9 +32,12 @@ variable "db_username" {
 resource "aws_instance" "production_server" {
     ami = "ami-05ea2888c91c97ca7"
     instance_type = "t2.medium"
-    count = 2
+    count = 1
     key_name = "remotebuild"
     user_data = file("server_build.sh")
+    security_groups = [
+      "${aws_security_group.webserver-security-group.name}"
+    ]
     tags = {
       Name = "to-do prod ${count.index}"
     }
