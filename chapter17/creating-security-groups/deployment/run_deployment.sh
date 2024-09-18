@@ -54,21 +54,21 @@ do
   -o StrictHostKeyChecking=no -t \
   
   ssh -i "~/.ssh/keys/remotebuild.pem" \
--o StrictHostKeyChecking=no -t \
-ec2-user@$IP_ADDRESS << EOF
-    until [ -f ./output.txt ]
-    do
-        echo "waiting for file"
-        sleep 3
-    done
-    echo "File found"
-    sudo yum install docker -y
-    sudo usermod -a -G docker ec2-user
-    sudo systemctl start docker.service
-    sudo docker login -u $USERNAME -p $PASSWORD
-    export DATABASE_URL=$POSTGRES_URL
-    sudo DATABASE_URL=$POSTGRES_URL docker-compose up -d
-EOF
+  -o StrictHostKeyChecking=no -t \
+  ec2-user@$IP << EOF
+      until [ -f ./output.txt ]
+      do
+          echo "waiting for file"
+          sleep 3
+      done
+      echo "File found"
+      sudo yum install docker -y
+      sudo usermod -a -G docker ec2-user
+      sudo systemctl start docker.service
+      sudo docker login -u $USERNAME -p $PASSWORD
+      export DATABASE_URL=$POSTGRES_URL
+      sudo DATABASE_URL=$POSTGRES_URL docker-compose up -d
+  EOF
 done
 
 curl -X POST https://pubsub.me/api/v1/users/create \
