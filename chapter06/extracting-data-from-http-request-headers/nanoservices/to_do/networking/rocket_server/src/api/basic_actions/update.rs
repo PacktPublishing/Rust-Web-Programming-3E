@@ -4,6 +4,7 @@ use to_do_core::api::basic_actions::{
 };
 use to_do_core::structs::{ToDoItem, AllToDoItems};
 use glue::errors::NanoServiceError;
+use glue::token::HeaderToken;
 use rocket::serde::json::Json;
 
 
@@ -15,7 +16,7 @@ use rocket::serde::json::Json;
 /// # Returns
 /// All of the items in the to-do list.
 #[patch("/update", data = "<body>")]
-pub async fn update(body: Json<ToDoItem>) 
+pub async fn update(token: HeaderToken, body: Json<ToDoItem>) 
     -> Result<Json<AllToDoItems>, NanoServiceError> {
     let _ = update_core(body.into_inner()).await?;
     Ok(Json(get_all_core().await?))

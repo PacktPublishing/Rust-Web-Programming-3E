@@ -8,9 +8,10 @@ use hyper::{Request, Response, Method};
 use hyper_util::rt::TokioIo;
 use tokio::net::TcpListener;
 use http_body_util::Full;
+use glue::hyper_utils::extract_header::extract_token;
+use glue::extract_hyper_header_token;
 
 mod api;
-mod utils;
 
 
 /// Handles an incoming request and routes it to the appropriate handler.
@@ -22,6 +23,7 @@ mod utils;
 /// A `Result` containing the response to the request or an error
 async fn handle(req: Request<hyper::body::Incoming>) 
     -> Result<Response<Full<Bytes>>, Infallible> {
+    
     let path = req.uri().path();
     // Split the path into segments
     let segments: Vec<&str> = path.trim_start_matches('/').split('/').collect();
@@ -41,8 +43,9 @@ async fn handle(req: Request<hyper::body::Incoming>)
             api::basic_actions::create::create(req).await
         }
         (&Method::PATCH, ["api", "v1", "update"]) => {
+            let token = extract_hyper_header_token!(&req);
             // Extract and parse the JSON body
-            api::basic_actions::update::update(req).await
+            api::basic_actions::update::update(req, token).await
         }
         (&Method::DELETE, ["api", "v1", "delete", name]) => {
             // Here `name` is the extracted name segment from the URL

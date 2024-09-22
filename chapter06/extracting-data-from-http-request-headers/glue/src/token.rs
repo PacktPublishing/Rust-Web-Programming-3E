@@ -75,47 +75,53 @@ mod rocket_impl {
     }
 }
 
-// Axum implementation of FromRequest for HeaderToken
+// Axum implementation of FromRequestParts for HeaderToken
 #[cfg(feature = "axum")]
 mod axum_impl {
     use super::HeaderToken;
     pub use axum::{
         async_trait,
-        extract::{FromRequest as AxumFromRequest, Request},
+        extract::FromRequestParts as AxumFromRequestParts,
     };
+    use axum::http::request::Parts;
     use crate::errors::{NanoServiceError, NanoServiceErrorStatus};
 
     #[async_trait]
-    impl<S> AxumFromRequest<S> for HeaderToken
+    impl<S> AxumFromRequestParts<S> for HeaderToken
     where
         S: Send + Sync,
     {
         type Rejection = NanoServiceError;
 
-        async fn from_request(req: Request, _state: &S) -> Result<Self, Self::Rejection> {
-            let raw_data = match req.headers().get("token") {
+        async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
+            // Extract the header from parts
+            let raw_data = match parts.headers.get("token") {
                 Some(data) => data,
                 None => {
                     return Err(NanoServiceError {
                         status: NanoServiceErrorStatus::Unauthorized,
-                        message: "token not in header under key 'token'".to_string()
-                    })
+                        message: "Token not found in header under key 'token'".to_string(),
+                    });
                 }
             };
 
+            // Convert the header value to a string
             let message = match raw_data.to_str() {
                 Ok(token) => token.to_string(),
                 Err(_) => {
                     return Err(NanoServiceError {
                         status: NanoServiceErrorStatus::Unauthorized,
-                        message: "token not a valid string".to_string()
-                    })
+                        message: "Token is not a valid string".to_string(),
+                    });
                 }
             };
+
+            // Return the extracted token
             Ok(HeaderToken { message })
         }
     }
 }
+
 
 // Re-export the specific FromRequest implementations depending on the activated feature
 #[cfg(feature = "actix")]
@@ -125,4 +131,4 @@ pub use actix_impl::ActixFromRequest;
 pub use rocket_impl::RocketFromRequest;
 
 #[cfg(feature = "axum")]
-pub use axum_impl::AxumFromRequest;
+pub use axum_impl::AxumFromRequestParts;

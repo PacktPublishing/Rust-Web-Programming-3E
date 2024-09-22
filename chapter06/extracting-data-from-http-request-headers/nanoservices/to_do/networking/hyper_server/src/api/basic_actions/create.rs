@@ -8,7 +8,7 @@ use http_body_util::Full;
 use hyper::body::Bytes;
 use hyper::{header, Response, Request, body::Incoming};
 use to_do_core::structs::ToDoItem;
-use crate::utils::extract_body;
+use glue::hyper_utils::extract_body::extract_body;
 
 
 /// Creates an item in the to-do list.
