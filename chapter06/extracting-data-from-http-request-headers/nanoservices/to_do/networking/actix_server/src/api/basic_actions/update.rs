@@ -3,8 +3,10 @@ use to_do_core::api::basic_actions::{
     get::get_all as get_all_core
 };
 use to_do_core::structs::ToDoItem;
-use glue::errors::NanoServiceError;
-use glue::token::HeaderToken;
+use glue::{
+    errors::NanoServiceError,
+    token::HeaderToken
+};
 use actix_web::{
     HttpResponse,
     web::Json
