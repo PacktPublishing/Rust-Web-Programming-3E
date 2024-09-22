@@ -1,6 +1,11 @@
-
-
-// Define the HeaderToken struct that will be extracted from the request
+/// The houses data from the token in the header.
+/// 
+/// # Notes
+/// At this point in the book authentication is not implemented, so the token is just a string.
+/// But authentication logic will be added later on in the book.
+/// 
+/// # Fields
+/// - `message` - The token from the header
 pub struct HeaderToken {
     pub message: String,
 }
