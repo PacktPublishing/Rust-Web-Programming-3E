@@ -15,6 +15,7 @@ pub fn basic_actions_factory() -> Vec<Route> {
         get::get_all, 
         get::get_by_name, 
         create::create, 
-        delete::delete_by_name
+        delete::delete_by_name,
+        update::update
     ]
 }

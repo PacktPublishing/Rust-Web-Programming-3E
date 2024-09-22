@@ -7,6 +7,7 @@ use axum::{
     routing::get,
     routing::post,
     routing::delete,
+    routing::patch,
     Router,
 };
 
@@ -21,4 +22,5 @@ pub fn basic_actions_factory(router: Router) -> Router {
         .route("/api/v1/get/:name", get(get::get_by_name))
         .route("/api/v1/create", post(create::create))
         .route("/api/v1/delete/:name", delete(delete::delete_by_name))
+        .route("/api/v1/update", patch(update::update))
 }

@@ -40,6 +40,10 @@ async fn handle(req: Request<hyper::body::Incoming>)
             // Extract and parse the JSON body
             api::basic_actions::create::create(req).await
         }
+        (&Method::PATCH, ["api", "v1", "update"]) => {
+            // Extract and parse the JSON body
+            api::basic_actions::update::update(req).await
+        }
         (&Method::DELETE, ["api", "v1", "delete", name]) => {
             // Here `name` is the extracted name segment from the URL
             api::basic_actions::delete::delete_by_name(name).await
