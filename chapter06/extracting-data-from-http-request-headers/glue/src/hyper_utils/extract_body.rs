@@ -1,9 +1,9 @@
 use serde::de::DeserializeOwned;
 use hyper::{Request, body::Incoming};
-use glue::errors::{NanoServiceError, NanoServiceErrorStatus};
+use crate::errors::{NanoServiceError, NanoServiceErrorStatus};
 use hyper::body::Buf;
 use http_body_util::BodyExt;
-use glue::safe_eject;
+use crate::safe_eject;
 
 
 /// Extracts the body from a request and deserializes it into a struct.

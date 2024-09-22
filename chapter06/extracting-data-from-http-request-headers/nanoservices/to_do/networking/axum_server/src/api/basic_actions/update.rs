@@ -9,6 +9,7 @@ use axum::{
     http::StatusCode,
     response::IntoResponse,
 };
+use glue::token::HeaderToken;
 
 
 /// updates an item in the to-do list.
@@ -18,7 +19,8 @@ use axum::{
 /// 
 /// # Returns
 /// All of the items in the to-do list.
-pub async fn update(Json(body): Json<ToDoItem>) -> Result<impl IntoResponse, NanoServiceError> {
+// pub async fn update(Json(body): Json<ToDoItem>) -> Result<impl IntoResponse, NanoServiceError> {
+pub async fn update(token: HeaderToken, Json(body): Json<ToDoItem>) -> Result<impl IntoResponse, NanoServiceError> {
     // Call the core create function
     update_core(body).await?;
 

@@ -4,6 +4,7 @@ use to_do_core::api::basic_actions::{
 };
 use to_do_core::structs::ToDoItem;
 use glue::errors::NanoServiceError;
+use glue::token::HeaderToken;
 use actix_web::{
     HttpResponse,
     web::Json
@@ -17,7 +18,7 @@ use actix_web::{
 /// 
 /// # Returns
 /// A JSON response containing all items in the to do list.
-pub async fn update(body: Json<ToDoItem>) -> Result<HttpResponse, NanoServiceError> {
+pub async fn update(token: HeaderToken, body: Json<ToDoItem>) -> Result<HttpResponse, NanoServiceError> {
     let _ = update_core(body.into_inner()).await?;
     Ok(HttpResponse::Ok().json(get_all_core().await?))
 }

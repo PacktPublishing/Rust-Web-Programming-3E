@@ -1,5 +1,6 @@
 use glue::errors::{NanoServiceError, NanoServiceErrorStatus};
 use glue::safe_eject;
+use glue::token::HeaderToken;
 use to_do_core::api::basic_actions::{
     update::update as update_core,
     get::get_all as get_all_core
@@ -8,7 +9,7 @@ use http_body_util::Full;
 use hyper::body::Bytes;
 use hyper::{header, Response, Request, body::Incoming};
 use to_do_core::structs::ToDoItem;
-use crate::utils::extract_body;
+use glue::hyper_utils::extract_body::extract_body;
 
 
 /// Updates an item in the to-do list.
@@ -18,7 +19,7 @@ use crate::utils::extract_body;
 /// 
 /// # Returns
 /// All of the items in the to-do list.
-pub async fn update(req: Request<Incoming>) -> Result<Response<Full<Bytes>>, NanoServiceError> {
+pub async fn update(req: Request<Incoming>, token: HeaderToken) -> Result<Response<Full<Bytes>>, NanoServiceError> {
     let todo_item = extract_body::<ToDoItem>(req).await?;
     update_core(todo_item).await?;
     let json_body = safe_eject!(
