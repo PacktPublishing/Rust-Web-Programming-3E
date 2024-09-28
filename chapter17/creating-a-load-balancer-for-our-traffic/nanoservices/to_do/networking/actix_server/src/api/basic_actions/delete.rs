@@ -138,7 +138,9 @@ mod tests {
 
     async fn run_request(req: Request) -> ServiceResponse {
         let service = delete_by_name::<MockDbHandle, MockUserSessionHandle>;
-        let app = init_service(App::new().route("/delete/{name}", web::delete().to(service))).await;
+        let app = init_service(
+                App::new().route("/delete/{name}", web::delete().to(service))
+            ).await;
         call_service(&app, req).await
     }
 
