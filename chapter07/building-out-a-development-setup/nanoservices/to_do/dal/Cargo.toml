@@ -1,0 +1,14 @@
+# File: to_do/dal/Cargo.toml
+[package]
+name = "to-do-dal"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+json-file = ["serde_json", "serde"]
+default = ["json-file"]
+
+[dependencies]
+serde_json = { version="1.0.114", optional = true }
+serde = { version="1.0.197", optional = true }
+glue = { path = "../../../glue"}
