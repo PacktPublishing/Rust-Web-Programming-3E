@@ -1089,6 +1089,17 @@ dependencies = [
 [[package]]
 name = "hyper-ingress"
 version = "0.1.0"
+dependencies = [
+ "bytes",
+ "glue",
+ "http-body-util",
+ "hyper 1.5.0",
+ "hyper-util",
+ "mime_guess",
+ "rust-embed",
+ "serde_json",
+ "tokio",
+]
 
 [[package]]
 name = "hyper-util"
@@ -1653,6 +1664,13 @@ dependencies = [
 [[package]]
 name = "rocket-ingress"
 version = "0.1.0"
+dependencies = [
+ "axum",
+ "mime_guess",
+ "rocket",
+ "rust-embed",
+ "tokio",
+]
 
 [[package]]
 name = "rocket_codegen"
