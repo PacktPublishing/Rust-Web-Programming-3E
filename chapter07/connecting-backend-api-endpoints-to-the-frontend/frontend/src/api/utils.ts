@@ -3,17 +3,16 @@ import axios, {AxiosResponse} from "axios";
 
 
 async function handleRequest<T, X>(
-    promise: Promise<AxiosResponse<X>>, 
+    promise: Promise<AxiosResponse<X>>,
     expectedResponse: number) {
     let response: AxiosResponse<X>;
     try {
         response = await promise;
     } catch (error) {
-        const status = error.response?.status || 500;
-        const errorMessage = error.message || 'Network or unknown error'
         return {
-            status: status,
-            error: errorMessage
+            status: 500,
+            error: "Network Error",
+            data: JSON.stringify(error)
         };
     }
     if (response.status === expectedResponse) {
@@ -24,9 +23,10 @@ async function handleRequest<T, X>(
     } else {
         return {
             status: response.status,
-            error: response.data as string
+            error: `expected status ${expectedResponse} got ${response.status}`,
+            data: response.data as X
         };
-    }    
+    }
 }
 
 
@@ -83,6 +83,23 @@ export async function putCall<T, X>(
     url: string, body: T, 
     expectedResponse: number) {
     let response = axios.put<X | string>(
+        url,
+        body,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'token': "jwt"
+            },
+            validateStatus: () => true
+        });
+    return handleRequest(response, expectedResponse);
+}
+
+
+export async function patchCall<T, X>(
+    url: string, body: T, 
+    expectedResponse: number) {
+    let response = axios.patch<X | string>(
         url,
         body,
         {

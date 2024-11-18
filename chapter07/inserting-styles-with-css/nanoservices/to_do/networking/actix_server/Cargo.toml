@@ -1,0 +1,10 @@
+[package]
+name = "to-do-actix-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.36.0", features = ["full"] }
+actix-web = "4.9.0"
+to-do-core = { path = "../../core" }
+glue = { path = "../../../../glue", features = ["actix"] }
