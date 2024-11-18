@@ -8,6 +8,7 @@ use rust_embed::RustEmbed;
 use std::net::SocketAddr;
 use std::path::Path;
 use mime_guess;
+use tower_http::cors::{Any, CorsLayer};
 
 
 async fn index() -> Html<&'static str> {
@@ -69,7 +70,13 @@ async fn catch_all(uri: axum::http::Uri) -> impl IntoResponse {
 
 #[tokio::main]
 async fn main() {
+    let cors = CorsLayer::new()
+        .allow_origin(Any) // Allow all origins
+        .allow_methods(Any) // Allow all methods (GET, POST, etc.)
+        .allow_headers(Any); // Allow all headers
+
     let app = Router::new()
+        .layer(cors)
         .route("/", get(index))
         .fallback(catch_all);
     let addr = SocketAddr::from(([0, 0, 0, 0], 8001));

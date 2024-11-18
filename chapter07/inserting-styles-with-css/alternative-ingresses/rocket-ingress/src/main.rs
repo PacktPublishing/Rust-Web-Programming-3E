@@ -11,6 +11,9 @@ use rocket::Request;
 use std::marker::PhantomData;
 use std::net::Ipv4Addr;
 
+use rocket::http::Header;
+use rocket::fairing::{Fairing, Info, Kind};
+
 #[derive(RustEmbed)]
 #[folder = "../../frontend/public"]
 struct FrontendAssets;
@@ -91,9 +94,28 @@ async fn catch_all<'r>(req: &rocket::Request<'_>) -> Result<CustomResponder<'r>,
     })
 }
 
+pub struct CORS;
+
+#[rocket::async_trait]
+impl Fairing for CORS {
+    fn info(&self) -> Info {
+        Info {
+            name: "Add CORS headers to responses",
+            kind: Kind::Response
+        }
+    }
+
+    async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
+        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+        response.set_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
+        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
+        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
+    }
+}
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
+
     let config = rocket::Config {
         port: 8001,
         address: Ipv4Addr::new(0, 0, 0, 0).into(),
@@ -103,6 +125,7 @@ async fn main() -> Result<(), rocket::Error> {
     let rocket = rocket::custom(&config);
     let rocket = rocket.mount("/", routes![index, serve_frontend_asset]);
     let rocket = rocket.register("/", catchers![catch_all]);
+    let rocket = rocket.attach(CORS);
     rocket.launch().await?;
     Ok(())
 }
