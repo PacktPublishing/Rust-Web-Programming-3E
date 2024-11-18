@@ -1,0 +1,17 @@
+{
+    "name": "es_react",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "node esbuild.js",
+      "serve": "serve public"
+    },
+    "dependencies": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+      "esbuild": "0.24.0",
+      "esbuild-css-modules-plugin": "^3.1.0",
+      "serve": "^14.2.1"
+    }
+}

@@ -1,0 +1,11 @@
+[package]
+name = "to-do-axum-server"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+tokio = { version = "1.36.0", features = ["full"] }
+axum = { version = "0.7.5" }
+to-do-core = { path = "../../core" }
+glue = { path = "../../../../glue", features = ["axum"] }

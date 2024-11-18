@@ -5,7 +5,7 @@ use std::task::{Context, Poll};
 
 use async_task::{Runnable, Task};
 use futures_lite::future;
-use once_cell::sync::Lazy;
+use std::sync::LazyLock;
 
 
 /// Spawns an async task by sending it to a thread.
@@ -20,7 +20,7 @@ where
     F: Future<Output = T> + Send + 'static,
     T: Send + 'static,
 {
-    static QUEUE: Lazy<flume::Sender<Runnable>> = Lazy::new(|| {
+    static QUEUE: LazyLock<flume::Sender<Runnable>> = LazyLock::new(|| {
         let (tx, rx) = flume::unbounded::<Runnable>();
         thread::spawn(move || {
             while let Ok(runnable) = rx.recv() {
