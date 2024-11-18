@@ -1,0 +1,10 @@
+[package]
+name = "http-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = { version = "4.9.0", features = ["openssl"] }
+serde_json = "1.0.132"
+serde = { version = "1.0.0", features = ["derive"] }
+openssl = "0.10.68"
