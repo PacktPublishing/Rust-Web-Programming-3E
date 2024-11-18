@@ -95,7 +95,6 @@ dependencies = [
  "async-task",
  "flume",
  "futures-lite",
- "once_cell",
 ]
 
 [[package]]
