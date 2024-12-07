@@ -1,0 +1,13 @@
+# File: server/Cargo.toml
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+redis = { version = "0.27.5", features = ["aio", "tokio-comp"] }
+axum = "0.7.9"
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+serde_json = "1.0"
+kernel = { path = "../kernel" }

@@ -1,0 +1,11 @@
+# client/Cargo.toml
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+kernel = { path = "../kernel" }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+reqwest = { version = "0.12.9", features = ["json"] }
