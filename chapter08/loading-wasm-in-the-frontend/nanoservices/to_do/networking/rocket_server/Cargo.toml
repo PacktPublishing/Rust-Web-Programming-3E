@@ -1,0 +1,9 @@
+[package]
+name = "to-do-rocket-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5.1", features = ["json"] }
+to-do-core = { path = "../../core" }
+glue = { path = "../../../../glue", features = ["rocket"] }
