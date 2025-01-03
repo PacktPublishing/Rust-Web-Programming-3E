@@ -1,0 +1,11 @@
+[package]
+name = "rocket-ingress"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rust-embed = "8.3.0"
+mime_guess = "2.0.4"
+axum = "0.7.7"
+tokio = { version = "1.35.0", features = ["macros", "rt-multi-thread"] }
+rocket = "0.5.1"

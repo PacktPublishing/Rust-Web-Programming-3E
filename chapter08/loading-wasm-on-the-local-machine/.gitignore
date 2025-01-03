@@ -1,0 +1,5 @@
+wasm-lib/wasm_lib.wasm
+wasm-lib/wasm_lib.wat
+wasm-lib/target/
+wasm-client/target/
+kernel/target/
