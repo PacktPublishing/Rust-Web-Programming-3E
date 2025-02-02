@@ -1,0 +1,20 @@
+# File: to_do/dal/Cargo.toml
+[package]
+name = "to-do-dal"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+json-file = ["serde_json"]
+sqlx-postgres = ["sqlx"]
+default = ["sqlx-postgres"]
+
+[dependencies]
+serde ={ version="1.0.197", features = ["derive"] }
+glue = { path = "../../../glue"}
+
+# for json-file
+serde_json ={ version="1.0.114", optional = true }
+
+# for sqlx-postgres
+sqlx = { version = "0.8.3", features = ["postgres", "json"], optional = true }
