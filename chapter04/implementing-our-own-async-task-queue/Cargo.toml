@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-async-task = "4.7.0"
-futures-lite = "2.2.0"
-flume = "0.11.0"
+async-task = "4.7.1"
+futures-lite = "2.6.0"
+flume = "0.11.1"

@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clap = { version = "4.5.16", features = ["derive"] }
-serde = { version = "1.0.197", features = ["derive"] }
+clap = { version = "4.5.38", features = ["derive"] }
+serde = { version = "1.0.219", features = ["derive"] }
 to-do-dal = { path = "../dal" }
 
 [features]

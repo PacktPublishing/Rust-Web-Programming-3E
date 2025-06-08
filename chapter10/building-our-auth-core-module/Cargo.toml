@@ -1,0 +1,23 @@
+[workspace]
+resolver = "2"
+
+members = [ 
+    "alternative-ingresses/axum-ingress", 
+    "alternative-ingresses/hyper-ingress", 
+    "alternative-ingresses/rocket-ingress", 
+    "frontend/rust-interface", 
+    "glue",
+    "ingress", 
+    "nanoservices/auth/core", 
+    "nanoservices/auth/dal", 
+    "nanoservices/auth/networking/actix_server",
+    "nanoservices/to_do/core",
+    "nanoservices/to_do/dal",
+    "nanoservices/to_do/networking/actix_server",
+    "nanoservices/to_do/networking/axum_server", 
+    "nanoservices/to_do/networking/hyper_server",
+    "nanoservices/to_do/networking/rocket_server",
+    "nanoservices/auth/networking/actix_server",
+    "nanoservices/auth/networking/axum_server",
+    "nanoservices/auth/networking/rocket_server",
+]
