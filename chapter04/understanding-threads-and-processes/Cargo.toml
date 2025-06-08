@@ -1,5 +1,5 @@
 [package]
-name = "understanding-asynchronous-programming"
+name = "understanding-threads-and-processes"
 version = "0.1.0"
 edition = "2021"
 
