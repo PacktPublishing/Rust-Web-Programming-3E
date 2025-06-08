@@ -1,0 +1,28 @@
+{
+    "name": "es_react",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "node esbuild.js",
+        "serve": "serve public",
+        "test": "jest --runInBand",
+        "wasm": "cd rust-interface && sudo wasm-pack build --target web && cp pkg/rust_interface_bg.wasm ../public/rust_interface_bg.wasm",
+        "wasm-trace": "cd public && wasm2wat rust_interface_bg.wasm > rust_interface_bg.wat"
+
+    },
+    "dependencies": {
+        "axios": "^1.6.8",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^6.2.0",
+        "@types/jest": "^29.5.14",
+        "esbuild": "0.24.0",
+        "esbuild-css-modules-plugin": "^3.1.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "serve": "^14.2.1",
+        "ts-jest": "^29.2.5",
+        "ts-node": "^10.9.2"
+    }
+}
