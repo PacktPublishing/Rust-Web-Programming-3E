@@ -8,5 +8,5 @@ edition = "2021"
 json-file = ["serde_json", "serde"]
 
 [dependencies]
-serde_json = { version="1.0.114", optional = true }
-serde = { version="1.0.197", optional = true }
+serde_json = { version="1.0.140", optional = true }
+serde = { version="1.0.219", optional = true }

@@ -1,0 +1,14 @@
+[package]
+name = "to-do-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.16", features = ["derive"] }
+serde = { version = "1.0.197", features = ["derive"] }
+to-do-dal = { path = "../dal" }
+glue = { path = "../../../glue"}
+
+[features]
+json-file-storage = ["to-do-dal/json-file"]
+default = ["json-file-storage"]
