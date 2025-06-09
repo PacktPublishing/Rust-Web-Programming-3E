@@ -1,0 +1,11 @@
+[package]
+name = "auth-actix-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.36.0", features = ["full"] }
+actix-web = "4.5.1"
+auth-core = { path = "../../core" }
+auth-dal = { path = "../../dal" }
+glue = { path = "../../../../glue", features = ["actix"] }
