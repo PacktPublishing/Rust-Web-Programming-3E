@@ -1,0 +1,6 @@
+frontend/node_modules/
+frontend/public/bundle.js
+frontend/public/bundle.js.map
+frontend/public/rust_interface_bg.wasm
+frontend/public/rust_interface_bg.wat
+target/
