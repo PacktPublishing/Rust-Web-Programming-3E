@@ -1,0 +1,12 @@
+[package]
+name = "to-do-axum-server"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+tokio = { version = "1.45.1", features = ["full"] }
+axum = { version = "0.8.4" }
+to-do-core = { path = "../../core" }
+glue = { path = "../../../../glue", features = ["axum"] }
+to-do-dal = { path = "../../dal", features = ["sqlx-postgres"]}
