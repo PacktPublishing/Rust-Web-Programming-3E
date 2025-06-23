@@ -1,19 +1,18 @@
 use redis_module::redis_module;
-
 mod processes;
 mod user_session;
-
 use processes::{
     login::login,
     update::update,
     logout::logout
 };
-
-
 redis_module! {
     name: "user_sessions",
     version: 1,
-    allocator: (redis_module::alloc::RedisAlloc, redis_module::alloc::RedisAlloc),
+    allocator: (
+        redis_module::alloc::RedisAlloc,   // type implementing GlobalAlloc
+        redis_module::alloc::RedisAlloc    // value used as the global allocator
+    ),
     data_types: [],
     commands: [
         ["login.set", login, "write fast deny-oom", 1, 1, 1],

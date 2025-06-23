@@ -6,6 +6,7 @@ use super::super::descriptors::SqlxPostGresDescriptor;
 
 
 pub trait SaveOne {
+    
     fn save_one(user: NewUser) -> impl Future<Output = Result<User, NanoServiceError>> + Send;
 }
 
@@ -27,7 +28,10 @@ async fn sqlx_postgres_save_one(user: NewUser) -> Result<User, NanoServiceError>
     .bind(user.password.to_string())
     .bind(user.unique_id)
     .fetch_one(&*SQLX_POSTGRES_POOL).await.map_err(|e| {
-        NanoServiceError::new(e.to_string(), NanoServiceErrorStatus::Unknown)
+        NanoServiceError::new(
+            e.to_string(), 
+            NanoServiceErrorStatus::Unknown
+        )
     })?;
     Ok(user)
 }
