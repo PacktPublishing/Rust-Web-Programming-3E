@@ -1,7 +1,7 @@
+//! The main entry point for the actix server
 use actix_web::{App, HttpServer};
-
 mod api;
-use dal::migrations::run_migrations;
+use to_do_dal::migrations::run_migrations;
 
 
 #[tokio::main]

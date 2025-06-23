@@ -1,5 +1,5 @@
 [package]
-name = "auth_actix_server"
+name = "auth-actix-server"
 version = "0.1.0"
 edition = "2021"
 

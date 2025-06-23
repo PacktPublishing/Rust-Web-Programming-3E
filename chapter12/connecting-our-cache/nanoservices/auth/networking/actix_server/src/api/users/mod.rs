@@ -1,6 +1,5 @@
 pub mod create;
 pub mod get;
-
 use auth_dal::users::descriptors::SqlxPostGresDescriptor;
 use actix_web::web::{ServiceConfig, scope, post, get};
 

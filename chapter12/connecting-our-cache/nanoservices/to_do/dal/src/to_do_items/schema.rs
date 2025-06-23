@@ -2,28 +2,13 @@ use std::fmt;
 use glue::errors::NanoServiceError;
 use serde::{Serialize, Deserialize};
 use super::enums::TaskStatus;
+use std::collections::HashMap;
 
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NewToDoItem {
     pub title: String,
     pub status: TaskStatus
-}
-
-
-impl fmt::Display for NewToDoItem {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self.status {
-            TaskStatus::PENDING => write!(
-                f, "Pending: {}", 
-                self.title
-            ),
-            TaskStatus::DONE => write!(
-                f, "Done: {}", 
-                self.title
-            ),
-        }
-    }
 }
 
 

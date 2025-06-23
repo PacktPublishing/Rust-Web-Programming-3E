@@ -4,14 +4,15 @@ services:
 
   postgres:
     container_name: 'to-do-postgres'
-    image: 'postgres:16.3'
+    image: 'postgres:11.2'
     restart: always
     ports:
-      - '5432:5432'
+      - '5433:5432'
     environment:
       - 'POSTGRES_USER=username'
       - 'POSTGRES_DB=to_do'
       - 'POSTGRES_PASSWORD=password'
+
   cache:
     container_name: 'to-do-redis'
     build: './nanoservices/user-session-cache/cache-module'

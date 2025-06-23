@@ -1,11 +1,12 @@
-#[cfg(any(feature = "core-postgres", feature = "http"))]
+#[cfg(any(feature = "auth-core", feature = "http"))]
 mod common_imports {
     pub use auth_dal::users::schema::TrimmedUser;
     pub use glue::errors::NanoServiceError;
 }
-#[cfg(feature = "core-postgres")]
+#[cfg(feature = "auth-core")]
 mod core_imports {
-    pub use auth_core::api::users::get::get_by_unique_id as get_by_unique_id_core;
+    pub use auth_core::api::users::get::get_by_unique_id 
+    as get_by_unique_id_core;
     pub use auth_dal::users::descriptors::SqlxPostGresDescriptor;
 }
 #[cfg(feature = "http")]
@@ -24,13 +25,12 @@ use reqwest_imports::*;
 
 #[cfg(any(feature = "core-postgres", feature = "http"))]
 pub async fn get_user_by_unique_id(id: String) -> Result<TrimmedUser, NanoServiceError> {
-
     #[cfg(feature = "core-postgres")]
     let user: TrimmedUser = get_by_unique_id_core::<SqlxPostGresDescriptor>(id).await?.into();
-
     #[cfg(feature = "http")]
-    let user: TrimmedUser = get_user_by_unique_id_api_call(id).await?.into();
-
+    let user: TrimmedUser = get_user_by_unique_id_api_call(id)
+                                                       .await?
+                                                       .into();
     return Ok(user)
 }
 
@@ -38,15 +38,15 @@ pub async fn get_user_by_unique_id(id: String) -> Result<TrimmedUser, NanoServic
 #[cfg(feature = "http")]
 async fn get_user_by_unique_id_api_call(id: String) -> Result<TrimmedUser, NanoServiceError> {
     let url = std::env::var("AUTH_API_URL").map_err(|e|{
-        NanoServiceError::new(e.to_string(), NanoServiceErrorStatus::BadRequest)
+        NanoServiceError::new(
+            e.to_string(), 
+            NanoServiceErrorStatus::BadRequest
+        )
     })?;
-
     let full_url = format!("{}/api/v1/users/get", url);
-
     let header_token = HeaderToken {
         unique_id: id
     }.encode()?;
-
     let client = Client::new();
     let response = client
         .get(&full_url)
@@ -59,20 +59,19 @@ async fn get_user_by_unique_id_api_call(id: String) -> Result<TrimmedUser, NanoS
                 NanoServiceErrorStatus::BadRequest
             )
         })?;
-
-    if response.status().is_success() {
-        let trimmed_user = response
-            .json::<TrimmedUser>()
-            .await
-            .map_err(|e| NanoServiceError::new(
-                e.to_string(),
-                NanoServiceErrorStatus::BadRequest
-            ))?;
-        return Ok(trimmed_user)
-    } else {
-        return Err(NanoServiceError::new(
-            format!("Failed to get user: {}", response.status()),
-            NanoServiceErrorStatus::BadRequest,
-        ))
-    }
+        if response.status().is_success() {
+            let trimmed_user = response
+                .json::<TrimmedUser>()
+                .await
+                .map_err(|e| NanoServiceError::new(
+                    e.to_string(),
+                    NanoServiceErrorStatus::BadRequest
+                ))?;
+            return Ok(trimmed_user)
+        } else {
+            return Err(NanoServiceError::new(
+                format!("Failed to get user: {}", response.status()),
+                NanoServiceErrorStatus::BadRequest,
+            ))
+        }        
 }
