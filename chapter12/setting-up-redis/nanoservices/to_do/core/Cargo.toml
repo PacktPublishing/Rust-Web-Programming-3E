@@ -1,16 +1,17 @@
 [package]
-name = "core"
+name = "to-do-core"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-dal = { path = "../dal" }
+clap = { version = "4.5.16", features = ["derive"] }
 serde = { version = "1.0.197", features = ["derive"] }
+to-do-dal = { path = "../dal" }
 glue = { path = "../../../glue"}
 auth-kernel = { path = "../../auth/kernel" }
 
 [features]
+json-file-storage = ["to-do-dal/json-file"]
+default = ["json-file-storage"]
 memory = ["auth-kernel/core-postgres"]
 http = ["auth-kernel/http"]

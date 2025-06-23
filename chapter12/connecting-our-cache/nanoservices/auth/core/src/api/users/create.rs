@@ -11,7 +11,8 @@ pub struct CreateUser {
 }
 
 
-pub async fn create<T: SaveOne>(data: CreateUser) -> Result<User, NanoServiceError> {
+pub async fn create<T: SaveOne>(data: CreateUser) 
+    -> Result<User, NanoServiceError> {
     let user = NewUser::new(data.email, data.password)?;
     let created_item = T::save_one(user).await?;
     Ok(created_item)

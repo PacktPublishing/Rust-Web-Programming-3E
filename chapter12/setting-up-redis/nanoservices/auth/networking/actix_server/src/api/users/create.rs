@@ -3,6 +3,7 @@ use auth_core::api::users::create::{
     create as create_core,
     CreateUser
 };
+use auth_dal::users::schema::NewUser;
 use glue::errors::NanoServiceError;
 use actix_web::{
     HttpResponse,
@@ -15,3 +16,4 @@ pub async fn create<T: SaveOne>(body: Json<CreateUser>)
     let _ = create_core::<T>(body.into_inner()).await?;
     Ok(HttpResponse::Created().finish())
 }
+
