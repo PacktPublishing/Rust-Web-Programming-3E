@@ -1,6 +1,5 @@
 pub mod login;
 pub mod logout;
-
 use actix_web::web::{ServiceConfig, get, scope};
 use auth_dal::users::descriptors::SqlxPostGresDescriptor;
 

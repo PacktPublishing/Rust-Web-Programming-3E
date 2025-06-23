@@ -1,5 +1,5 @@
 [package]
-name = "auth_actix_server"
+name = "auth-actix-server"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,6 +9,4 @@ actix-web = "4.5.1"
 auth-core = { path = "../../core" }
 auth-dal = { path = "../../dal" }
 glue = { path = "../../../../glue", features = ["actix"] }
-auth-kernel = { path = "../../kernel", features = ["auth-core"], default-features = false }
-cache-client = { path = "../../../user-session-cache/cache-client" }
 base64 = "0.22.1"

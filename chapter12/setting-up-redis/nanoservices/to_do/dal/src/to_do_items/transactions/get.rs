@@ -16,55 +16,60 @@ use super::super::descriptors::SqlxPostGresDescriptor;
 #[cfg(feature = "sqlx-postgres")]
 use glue::errors::NanoServiceErrorStatus;
 
-
 pub type GetAllResponse = Result<Vec<ToDoItem>, NanoServiceError>;
 
 pub trait GetAll {
-    fn get_all(user_id: i32) -> impl Future<Output = GetAllResponse> + Send;
+    fn get_all(user_id: i32) 
+    -> impl Future<Output = GetAllResponse> + Send;
 }
 
 
 #[cfg(feature = "sqlx-postgres")]
 impl GetAll for SqlxPostGresDescriptor {
-    fn get_all(user_id: i32) -> impl Future<Output = GetAllResponse> + Send {
+    fn get_all(user_id: i32) 
+    -> impl Future<Output = GetAllResponse> + Send {
         sqlx_postgres_get_all(user_id)
     }
 }
 
-
 #[cfg(feature = "json-file")]
 impl GetAll for JsonFileDescriptor {
-    fn get_all(user_id: i32) -> impl Future<Output = GetAllResponse> + Send {
+    fn get_all(user_id: i32) 
+    -> impl Future<Output = GetAllResponse> + Send {
         json_file_get_all(user_id)
     }
 }
-
 
 #[cfg(feature = "sqlx-postgres")]
 async fn sqlx_postgres_get_all(user_id: i32) -> GetAllResponse {
     let items = sqlx::query_as::<_, ToDoItem>("
         SELECT * FROM to_do_items WHERE id IN (
-            SELECT to_do_id FROM user_connections WHERE user_id = $1
+            SELECT to_do_id 
+            FROM user_connections WHERE user_id = $1
         )")
     .bind(user_id)
     .fetch_all(&*SQLX_POSTGRES_POOL).await.map_err(|e| {
-        NanoServiceError::new(e.to_string(), NanoServiceErrorStatus::Unknown)
+        NanoServiceError::new(
+            e.to_string(), 
+            NanoServiceErrorStatus::Unknown
+        )
     })?;
     Ok(items)
 }
 
-
 #[cfg(feature = "json-file")]
 async fn json_file_get_all(user_id: i32) -> GetAllResponse {
-    let tasks = get_all::<ToDoItem>().unwrap_or_else(|_| HashMap::new());
-    let items = tasks.values().cloned().collect();
+    let tasks = get_all::<ToDoItem>()
+                        .unwrap_or_else(|_| HashMap::new());
     let mut filtered_items: Vec<ToDoItem> = Vec::new();
-    for item in items {
-        let key = item.id.to_string().split(":").nth(1).unwrap();
+    for item in tasks.keys() {
+        let key = item.split(":").nth(1).unwrap();
         let item_user_id = key.parse::<i32>().unwrap();
         if item_user_id == user_id {
-            filtered_items.push(item);
+            filtered_items.push(tasks.get(item).unwrap().clone());
         }
     }
     Ok(filtered_items)
 }
+
+
