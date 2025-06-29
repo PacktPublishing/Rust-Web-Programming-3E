@@ -1,0 +1,12 @@
+[package]
+name = "axum-ingress"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rust-embed = "8.3.0"
+mime_guess = "2.0.4"
+axum = "0.8.4"
+tokio = { version = "1.35.0", features = ["macros", "rt-multi-thread"] }
+tower-http = { version = "0.6.1", features = ["cors"] }
+to-do-dal = { path = "../../nanoservices/to_do/dal", features = ["sqlx-postgres"]}
