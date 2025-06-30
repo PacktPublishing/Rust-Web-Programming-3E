@@ -1,0 +1,11 @@
+[package]
+name = "auth-rocket-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5.1", features = ["json"] }
+auth-core = { path = "../../core" }
+auth-dal = { path = "../../dal" }
+glue = { path = "../../../../glue", features = ["rocket", "elastic-logger"] }
+base64 = "0.22.1"

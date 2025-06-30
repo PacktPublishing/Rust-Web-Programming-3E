@@ -1,0 +1,23 @@
+[package]
+name = "to-do-hyper-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hyper = { version = "1.2.0", features = ["full"] }
+tokio = { version = "1.36.0", features = ["full"] }
+http-body-util = "0.1.1"
+hyper-util = { version = "0.1.3", features = ["full"] }
+serde_json = "1.0.128"
+bytes = "1.7.1"
+to-do-core = { path = "../../core" }
+glue = { path = "../../../../glue", features = ["hyper", "elastic-logger"] }
+serde = { version = "1.0.197", features = ["derive"] }
+to-do-dal = { path = "../../dal", features = ["sqlx-postgres"]}
+auth-kernel = { path = "../../../auth/kernel" }
+tracing = "0.1.4"
+
+[features]
+auth-http = ["auth-kernel/http"]
+auth-core-postgres = ["auth-kernel/core-postgres"]
+default = ["auth-core-postgres"]
