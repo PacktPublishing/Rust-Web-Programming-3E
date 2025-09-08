@@ -1,18 +1,16 @@
 [package]
-name = "actix_server"
+name = "to-do-actix-server"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 tokio = { version = "1.36.0", features = ["full"] }
-actix-web = "4.5.1"
-core = { path = "../../core" }
-dal = { path = "../../dal", features = ["sqlx-postgres"]}
+actix-web = "4.9.0"
+to-do-core = { path = "../../core" }
+to-do-dal = { path = "../../dal", features = ["sqlx-postgres"]}
 glue = { path = "../../../../glue", features = ["actix", "elastic-logger"] }
 auth-kernel = { path = "../../../auth/kernel" }
-actix-cors = "0.7.0"
+actix-cors = "0.7.1"
 
 [features]
 auth-http = ["auth-kernel/http"]
