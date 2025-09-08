@@ -1,0 +1,16 @@
+
+running 6 tests
+test enums::tests::test_task_status_from_string ... ok
+test structs::tests::test_from_hashmap ... ok
+test structs::tests::test_display ... ok
+test enums::tests::test_task_status ... ok
+test api::basic_actions::delete::tests::test_delete_ok ... ok
+test api::basic_actions::delete::tests::test_delete_err ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
