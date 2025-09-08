@@ -1,0 +1,21 @@
+[package]
+name = "to-do-axum-server"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+tokio = { version = "1.45.1", features = ["full"] }
+axum = { version = "0.8.4" }
+to-do-core = { path = "../../core" }
+glue = { path = "../../../../glue", features = ["axum", "elastic-logger"] }
+to-do-dal = { path = "../../dal", features = ["sqlx-postgres"]}
+auth-kernel = { path = "../../../auth/kernel" }
+
+[features]
+auth-http = ["auth-kernel/http"]
+auth-core-postgres = ["auth-kernel/core-postgres"]
+default = ["auth-core-postgres"]
+
+[dev-dependencies]
+serde_json = "1.0.120"
