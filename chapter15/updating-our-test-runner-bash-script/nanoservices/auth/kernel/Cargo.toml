@@ -1,0 +1,16 @@
+[package]
+name = "auth-kernel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+auth-core = { path = "../core", optional = true }
+auth-dal = { path = "../dal" }
+reqwest = { version = "0.12.5", optional = true, features = ["json"] }
+glue = { path = "../../../glue" }
+cache-client = { path = "../../user-session-cache/cache-client" }
+base64 = { version = "0.22.1", optional = true }
+
+[features]
+http = ["reqwest", "base64", "auth-core"]
+core-postgres = ["auth-core"]

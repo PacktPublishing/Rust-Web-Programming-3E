@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+
+  postgres:
+    container_name: 'to-do-postgres'
+    image: 'postgres:16.3'
+    restart: always
+    ports:
+      - '5433:5432'
+    environment:
+      - 'POSTGRES_USER=username'
+      - 'POSTGRES_DB=to_do'
+      - 'POSTGRES_PASSWORD=password'
+  cache:
+    container_name: 'to-do-redis'
+    build: './nanoservices/user-session-cache/cache-module'
+    restart: always
+    ports:
+      - '6379:6379'
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.4
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch

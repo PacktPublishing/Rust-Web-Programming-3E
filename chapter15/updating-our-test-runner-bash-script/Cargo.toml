@@ -1,0 +1,17 @@
+
+[workspace]
+resolver = "2"
+members = [ 
+    "glue",
+    "ingress",
+    "ingress/frontend/rust-interface", 
+    "nanoservices/auth/core", 
+    "nanoservices/auth/dal", 
+    "nanoservices/auth/kernel", 
+    "nanoservices/auth/networking/actix_server",
+    "nanoservices/to_do/core",
+    "nanoservices/to_do/dal", "nanoservices/to_do/kernel",
+    "nanoservices/to_do/networking/actix_server", "nanoservices/to_do/networking/atomic-http-tests", "nanoservices/to_do/networking/http-workflow-tests",
+    "nanoservices/user-session-cache/cache-client", 
+    "nanoservices/user-session-cache/cache-module"
+]
