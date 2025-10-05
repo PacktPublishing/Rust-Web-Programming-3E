@@ -1,0 +1,129 @@
+/* File: ingress/frontend/src/App.css */
+.App {
+    background-color: #92a8d1;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100vh;
+}
+
+
+@media(max-width: 500px) {
+    .App {
+        padding: 1px;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media(min-width: 501px) and (max-width: 550px) {
+    .App {
+        padding: 1px;
+        display: grid;
+        grid-template-columns: 1fr 5fr 1fr;
+    }
+    .mainContainer {
+        grid-column-start: 2;
+    }
+}
+
+
+@media(min-width: 551px) and (max-width: 1000px) {
+    .App {
+        padding: 1px;
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+    .mainContainer {
+        grid-column-start: 2;
+    }
+}
+@media(min-width: 1001px) {
+    .App {
+        padding: 1px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .mainContainer {
+        grid-column-start: 2;
+    }
+}
+
+.itemContainer {
+    background: #034f84;
+    display: flex;
+    align-items: stretch; /* Ensures all children stretch to fill the container height */
+    justify-content: space-between; /* This spreads out the child elements */
+    margin: 0.3rem;
+}
+
+
+.itemContainer:hover {
+    background: #034f99;
+}
+
+
+.itemContainer p {
+    color: white;
+    display: inline-block;
+    margin: 0.5rem;
+    margin-right: 0.4rem;
+    margin-left: 0.4rem;
+}
+
+
+.actionButton {
+    display: inline-block;
+    float: right;
+    background: #f7786b;
+    border: none;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    color: white;
+    align-self: stretch; /* Make button fill the container height */
+}
+
+
+.actionButton:hover {
+    background: #f7686b;
+    color: black;
+}
+
+
+.inputContainer {
+    background: #034f84;
+    display: flex;
+    align-items: stretch; /* Ensures all children stretch to fill the container height */
+    justify-content: space-between; /* This spreads out the child elements */
+    margin: 0.3rem;
+    margin-top: 2rem;
+}
+
+
+.inputContainer input {
+    display: inline-block;
+    margin: 0.4rem;
+    border: 2px solid transparent; /* Starts with a transparent border */
+    background: #ffffff; /* Ensures the input background is white for better readability */
+    color: #034f84; /* Ensures text color is visible against the background */
+}
+
+.inputContainer input:focus {
+    outline: none; /* Removes the default focus outline */
+    border-color: #f7786b; /* Changes border color to a noticeable shade when focused */
+    box-shadow: 0 0 5px #f7786b; /* Adds a glow effect to make focus more obvious */
+}
+
+.header {
+    background: #034f84;
+    margin-bottom: 0.3rem;
+}
+
+
+.header p {
+    color: white;
+    display: inline-block;
+    margin: 0.5rem;
+    margin-right: 0.4rem;
+    margin-left: 0.4rem;
+}
