@@ -1,0 +1,25 @@
+[package]
+name = "glue"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = { version = "4.5.1", optional = true }
+serde = { version = "1.0.197", features = ["derive"] }
+thiserror = "1.0.58"
+futures = "0.3.30"
+jsonwebtoken = "9.3.0"
+tracing = "0.1.4"
+tracing-subscriber = "0.3.18"
+futures-util = "0.3.30"
+
+serde_json = { version = "1.0.120", optional = true }
+tokio = { version = "1.38.1", optional = true}
+reqwest = { version = "0.12.5", optional = true }
+chrono = { version = "0.4.38", optional = true }
+once_cell = { version = "1.19.0", optional = true }
+
+[features]
+# default = ["elastic-logger", "actix"]
+actix = ["actix-web"]
+elastic-logger = ["serde_json", "tokio", "reqwest", "chrono", "once_cell"]
