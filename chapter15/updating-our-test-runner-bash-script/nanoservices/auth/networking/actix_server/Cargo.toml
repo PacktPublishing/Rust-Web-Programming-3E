@@ -1,0 +1,15 @@
+[package]
+name = "auth_actix_server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.36.0", features = ["full"] }
+actix-web = "4.5.1"
+auth-core = { path = "../../core" }
+auth-dal = { path = "../../dal" }
+glue = { path = "../../../../glue", features = ["actix", "elastic-logger"] }
+auth-kernel = { path = "../../kernel", features = ["auth-core", "core-postgres"], default-features = false }
+cache-client = { path = "../../../user-session-cache/cache-client" }
+base64 = "0.22.1"
+actix-cors = "0.7.0"
